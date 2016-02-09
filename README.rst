@@ -3,7 +3,7 @@ TheGame
 #######
 
 ************
-Coding Style:
+Coding Style
 ************
 
 Allman
