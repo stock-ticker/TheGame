@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class StockHistory extends CI_Controller {
+class StockHistory extends Application {
 
     function __construct()
 	{
@@ -11,8 +11,8 @@ class StockHistory extends CI_Controller {
         
 	public function index()
 	{
-            $source = array_map('str_getcsv', file('stocks.csv'));
-            print_r($source);
+          //  $source = array_map('str_getcsv', file('stocks.csv'));
+
             /*
             foreach ($source as $record)
 		{
