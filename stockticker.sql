@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `movements` (
   `Datetime` varchar(19) DEFAULT NULL,
   `Code` varchar(4) DEFAULT NULL,
   `Action` varchar(4) DEFAULT NULL,
-  `Amount` int(2) DEFAULT NULL
+  `Amount` int(2) DEFAULT NULL,
+PRIMARY KEY (Code, Datetime)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -78,7 +79,8 @@ INSERT INTO `movements` (`Datetime`, `Code`, `Action`, `Amount`) VALUES
 DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `Player` varchar(6) DEFAULT NULL,
-  `Cash` int(4) DEFAULT NULL
+  `Cash` int(4) DEFAULT NULL,
+PRIMARY KEY (Player)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -102,7 +104,8 @@ CREATE TABLE IF NOT EXISTS `stocks` (
   `Code` varchar(4) DEFAULT NULL,
   `Name` varchar(10) DEFAULT NULL,
   `Category` varchar(1) DEFAULT NULL,
-  `Value` int(3) DEFAULT NULL
+  `Value` int(3) DEFAULT NULL,
+PRIMARY KEY (Code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -129,7 +132,8 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `Player` varchar(6) DEFAULT NULL,
   `Stock` varchar(4) DEFAULT NULL,
   `Trans` varchar(4) DEFAULT NULL,
-  `Quantity` int(4) DEFAULT NULL
+  `Quantity` int(4) DEFAULT NULL,
+PRIMARY KEY (Player, Stock, DateTime)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
