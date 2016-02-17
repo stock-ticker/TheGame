@@ -10,7 +10,20 @@ class PlayerStatus extends CI_Controller {
 
     public function index($player)
 	{
-            $this->database=$db;
+                    $source = $this->players->all();
+            print_r($source);
+            /*
+            foreach ($source as $record)
+		{
+			$stocks[] = array('Code' => $record['Code'], 'Name' => $record['Name'], 'Category' => $record['Category'], 'Value' => $record['Value']);
+		}
+		$this->data['stocks'] = $stocks;
+*/
+            //$this->data['pagebody'] = 'stock_history';
+            //$this->render();
+            $this->load->view('PlayerStatus');
+          
+            /*
             $this->data['pagebody'] = 'PlayerStatus';
             $source = $this->database->get($player);
             $this->data['peanuts'] = $source['peanuts'];
@@ -22,6 +35,6 @@ class PlayerStatus extends CI_Controller {
             $this->data['industry'] =  $source['industry'];
             $this->data['grain'] = $source['grain'];
             $this->load->view('player_status');
-            $this->render();
+            $this->render();*/
 	}
 }
