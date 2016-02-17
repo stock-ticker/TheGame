@@ -11,8 +11,9 @@ class StockHistory extends Application {
         
 	public function index()
 	{
-          //  $source = array_map('str_getcsv', file('stocks.csv'));
-
+            
+            $source = $this->stocks->all();
+            print_r($source);
             /*
             foreach ($source as $record)
 		{

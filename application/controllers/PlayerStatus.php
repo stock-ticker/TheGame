@@ -16,7 +16,7 @@ class PlayerStatus extends CI_Controller {
             $this->data['peanuts'] = $source['peanuts'];
             //Need a way to get total player equity here.
             $this->data['gold'] = $source['gold'];
-            $this->data['silver'] = $source['silver'];
+            $this->data['tech'] = $source['technology'];
             $this->data['bonds'] = $source['bonds'];
             $this->data['oil'] = $source['oil'];
             $this->data['industry'] =  $source['industry'];
