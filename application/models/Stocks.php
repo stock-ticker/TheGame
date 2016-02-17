@@ -22,4 +22,10 @@ class Stocks extends CI_Model{
            
          return $query->result_array();
     }
+     function names(){
+         $this->db->order_by("Name", "desc");
+         $this->db->select('Name');
+         $query = $this->db->get('stocks');
+         return $query->result_array();
+     }
 }
