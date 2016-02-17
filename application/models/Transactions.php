@@ -20,12 +20,11 @@ class Transactions extends CI_Model{
            $query = $this->db->get('transactions');
            return $query->result_array();
     }
-       function allForStock($stock)
+    
+    function allForStock($stock)
     {      
            //$this->db->order_by("Name", "desc");
            $query = $this->db->get_where('transactions', array('Stock' => $stock));
            return $query->result_array();
-           
-         return $query->result_array();
     }
 }
