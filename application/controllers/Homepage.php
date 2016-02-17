@@ -20,12 +20,13 @@ class Homepage extends Application {
 	 */
 	public function index()
 	{
-		$this->load->view('homepage');
-                stock();
-                players();
+		$this->data['pagebody'] = 'homepage'; 
+                $this->data['players_panel'] = $this->players();
+                $this->data['stocks_panel'] = $this->stocks();
+                $this->render();
 	}
         
-        function stock() {
+        function stocks() {
             
         }
         
