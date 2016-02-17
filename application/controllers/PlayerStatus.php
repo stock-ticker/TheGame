@@ -10,9 +10,11 @@ class PlayerStatus extends CI_Controller {
 
     public function index($player)
 	{
+            $this->database=$db;
             $this->data['pagebody'] = 'PlayerStatus';
             $source = $this->database->get($player);
             $this->data['peanuts'] = $source['peanuts'];
+            //Need a way to get total player equity here.
             $this->data['gold'] = $source['gold'];
             $this->data['silver'] = $source['silver'];
             $this->data['bonds'] = $source['bonds'];

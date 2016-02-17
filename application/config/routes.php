@@ -54,4 +54,4 @@ $route['404_override'] = '';
 //$route['translate_uri_dashes'] = FALSE;
 
 $route['history'] = 'stockHistory';
-$route['player/(:num)'] = "PlayerStatus/index/$1";
+$route['player/(:any)'] = "PlayerStatus/index/$1";
