@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array();
+$autoload['libraries'] = array('database', 'parser');
 
 /*
 | -------------------------------------------------------------------
@@ -129,3 +129,6 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 $autoload['helper'] = array('common', 'url');
+
+$autoload['model'] = array('stocks', 'movements', 'players', 'transactions');
+
