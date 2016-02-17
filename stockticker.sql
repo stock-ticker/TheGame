@@ -80,6 +80,12 @@ DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `Player` varchar(6) DEFAULT NULL,
   `Cash` int(4) DEFAULT NULL,
+  `Gold` int(5) DEFAULT 0,
+  `Technology` int(5) DEFAULT 0,
+  `Bonds` int(5) DEFAULT 0,
+  `Oil` int(5) DEFAULT 0,
+  `Industry` int(5) DEFAULT 0,
+  `Grain` int(5) DEFAULT 0,
 PRIMARY KEY (Player)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

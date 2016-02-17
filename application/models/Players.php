@@ -16,10 +16,8 @@ class Players extends CI_Model{
     //return all images, descending order by post date
     function all()
     { 
-          // $this->db->order_by("Name", "desc");
+           $this->db->order_by("Player", "desc");
            $query = $this->db->get('players');
            return $query->result_array();
-           
-         return $query->result_array();
     }
 }

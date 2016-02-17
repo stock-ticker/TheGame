@@ -19,8 +19,6 @@ class Stocks extends CI_Model{
            $this->db->order_by("Name", "desc");
            $query = $this->db->get('stocks');
            return $query->result_array();
-           
-         return $query->result_array();
     }
      function names(){
          $this->db->order_by("Name", "desc");
