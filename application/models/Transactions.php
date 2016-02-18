@@ -23,7 +23,6 @@ class Transactions extends CI_Model{
     
     function allForStock($stock)
     {      
-           //$this->db->order_by("Name", "desc");
            $query = $this->db->get_where('transactions', array('Stock' => $stock));
            return $query->result_array();
     }
