@@ -27,10 +27,24 @@ class Homepage extends Application {
 	}
         
         function stocks() {
-            
+            $source = $this->stocks->all();
+            foreach ($source as $record)
+            {
+                $stocks[] = array('Name' => $record['Name'],
+                                  'Code' => $record['Code'],
+                                  'Category' => $record['Category'],
+                                  'Value' => $record['Value']);
+            }
+            return $stocks;
         }
         
         function players() {
-            
+            $source = $this->players->all();
+            foreach ($source as $record) 
+            {
+                $players[] = array('Player' => $record['Player'],
+                                   'Cash' => $record['Cash']);
+            }
+            return $players;
         }
 }
