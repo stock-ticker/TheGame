@@ -1,0 +1,14 @@
+     <table>
+         <tr>
+            <th>Action</th>
+            <th>Amount</th>
+            <th>DateTime</th>
+         </tr>
+        {movements}
+            <tr>
+                <td>{Action}</td>
+                <td>{Amount}</td>
+                <td>{DateTime}</td>
+            </tr>
+        {/movements}
+     </table>

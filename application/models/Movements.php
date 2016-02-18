@@ -9,13 +9,14 @@ class Movements extends CI_Model{
     
     function all()
     {
-         //  $this->db->order_by("Name", "desc");
+        $this->db->order_by("DateTime", "desc");
         $query = $this->db->get('movements');
         return $query->result_array();
     }
     
     function allForStock($stock)
-    {      
+    {   
+        $this->db->order_by("DateTime", "desc");  
         $query = $this->db->get_where('movements', array('code' => $stock));
         return $query->result_array();
     }

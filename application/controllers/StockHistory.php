@@ -16,15 +16,30 @@ class StockHistory extends Application {
                 $selectedStock = $this->selectStock();
             } else
             {
-                 $selectedStock = 'GOLD';
+                 $selectedStock = $this->transactions->mostRecent();
             }
             
-            $this->movements($selectedStock);
-            $this->transactions($selectedStock);
-            $this->stocklist();
-            echo $this->selectStock();
+            $this->data['currentStock'] = $this->stocks->nameFromCode($selectedStock);
+            
+              if($this->movements($selectedStock)){
+                $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);
+            } else
+            {
+                $this->data['move_panel'] = '<h3>No movement History</h3>';
+            }
+            
+            if($this->transactions($selectedStock)){
+                $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true);
+            } else
+            {
+                $this->data['trans_panel'] = '<h3>No transaction History</h3>';
+            }
+             
+            $this->stocklist();           
 
             $this->data['pagebody'] = 'stock_history';
+           
+           
             $this->render();
 	}
         
@@ -43,13 +58,15 @@ class StockHistory extends Application {
                     $stocks[] = array('Name' => $record['Name'],
                         'Code' => $record['Code']);
 		}
-               // print_r($stocks);
               $this->data['stocks'] = $stocks;
         }
         
         private function movements($stockCode)
         {
             $source = $this->movements->allForStock($stockCode);
+            if($source == NULL){
+               return FALSE;
+            } 
             foreach ($source as $record)
 		{
                     $movements[] = array('DateTime' => $record['Datetime'],
@@ -57,19 +74,26 @@ class StockHistory extends Application {
                         'Amount' => $record['Amount']);
 		}
             $this->data['movements'] = $movements;
+            return TRUE;
         }
         
         private function transactions($stockCode)
         {
             $source = $this->transactions->allForStock($stockCode);
-
-            foreach ($source as $record)
-		{
+           if($source == NULL){
+               return FALSE;
+           } else
+           {
+                foreach ($source as $record)
+                {
                     $transactions[] = array('DateTime' => $record['DateTime'],
                         'Player' => $record['Player'],
                         'Trans' => $record['Trans'],
                         'Quantity' => $record['Quantity']);
-		}
+                }
+            
+           }
             $this->data['transactions'] = $transactions;
+            return TRUE;
         }
 }
