@@ -8,6 +8,10 @@ class LoginPage extends Application {
 	parent::__construct();
                 
     }  
+    /*
+     * checks if the user logs in. Displays the username if the user is logged in.
+     * Updates the userName if the user submits a new username.
+     */ 
     public function index()
     {
         if($this->input->post('username') != NULL)
@@ -18,8 +22,7 @@ class LoginPage extends Application {
                );
             $this->session->set_userdata($userData); 
         }
-    
-        
+
         if($this->session->userdata('logged_in') == TRUE)
         {
             $this->data['loginStatus'] = 'logged in as ' . $this->session->userdata('username');  
@@ -28,16 +31,6 @@ class LoginPage extends Application {
         {
             $this->data['loginStatus'] = 'Please Log In'; 
         }
-        $this->data['pagebody'] = 'loginView';
-        $this->render();
-    }
-    public function login()
-    {
-        $userData = array(
-                'username'  => $this->input->post('username'),
-                'logged_in' => TRUE
-               );
-        $this->session->set_userdata($userData);
         $this->data['pagebody'] = 'loginView';
         $this->render();
     }
