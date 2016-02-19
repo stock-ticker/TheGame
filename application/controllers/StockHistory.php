@@ -23,7 +23,8 @@ class StockHistory extends Application {
                  $selectedStock = $this->transactions->mostRecent();
             }
             
-            $this->data['currentStock'] = $this->stocks->nameFromCode($selectedStock);
+            $this->data['currentStockName'] = $this->stocks->nameFromCode($selectedStock);
+            $this->data['currentStockCode'] = $selectedStock;
             $this->movements($selectedStock);
             $this->transactions($selectedStock);
             $this->stocklist();           
