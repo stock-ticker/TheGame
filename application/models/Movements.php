@@ -7,6 +7,9 @@ class Movements extends CI_Model{
         parent::__construct();
     }
     
+    /*
+     * returns all the rows from movements table
+     */
     function all()
     {
         $this->db->order_by("DateTime", "desc");
@@ -14,6 +17,9 @@ class Movements extends CI_Model{
         return $query->result_array();
     }
     
+    /*
+     * returns all the rows from movements table for the specified stock
+     */
     function allForStock($stock)
     {   
         $this->db->order_by("DateTime", "desc");  
