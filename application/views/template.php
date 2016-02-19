@@ -16,15 +16,12 @@
   </div>
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
-		<div class="navbar-header">
-		  <a class="navbar-brand" href="#">Stock Ticker</a>
-		</div>
 		<ul class="nav navbar-nav">
 		  <li class="active"></a></li>
-		  <li><a href="#">Home</a></li>
-		  <li><a href="#">Stock History</a></li>
-		  <li><a href="#">Users</a></li>
-		  <li><a href="#">Login</a></li>
+		  <li><a href="/homepage">Home</a></li>
+		  <li><a href="/history">Stock History</a></li>
+		  <li><a href="/user">Users</a></li>
+		  <li><a href="/login">Login</a></li>
 		</ul>
 	  </div>
 	</nav>
