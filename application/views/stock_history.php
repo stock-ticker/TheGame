@@ -8,6 +8,13 @@
     </select> 
  </form>
 
-{move_panel}
+<div class="container">
+    <div class="row">
+        {move_panel}
+    </div>
+    <div class="row">
+        {trans_panel}
+    </div>
+</div>
 
-{trans_panel}
+
