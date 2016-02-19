@@ -33,6 +33,15 @@ class StockHistory extends Application {
             $this->render();
 	}
     /*
+     * 
+     */   
+    public function selectStock()
+        {
+            $data = $this->input->post('stockSelector');
+
+            return $data;
+        }
+    /*
      * passes an array of stock names and codes to the view. Used for the stock
      * select list
      */    
