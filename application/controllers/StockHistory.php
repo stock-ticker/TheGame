@@ -27,10 +27,10 @@ class StockHistory extends Application {
             $this->movements($selectedStock);
             $this->transactions($selectedStock);
             $this->stocklist();           
-
             $this->data['pagebody'] = 'stock_history';
-
             $this->render();
+            
+            
 	}
     /*
      * passes an array of stock names and codes to the view. Used for the stock
