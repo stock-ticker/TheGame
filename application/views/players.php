@@ -40,16 +40,14 @@
         <thead>
             <tr>
                 <th>Stock</th>
-                <th>Code</th>
                 <th>Quantity</th>
              </tr>
         </thead>
         <tbody>
             {holdings}
                 <tr>
-                    <td>{Name}</td>
-                    <td>{Code}</td>
-                    <td>{Balance}</td>
+                    <td>{Stock}</td>
+                    <td>{Quantity}</td>
                 </tr>
             {/holdings}
         </tbody>

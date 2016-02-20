@@ -25,7 +25,8 @@ class PlayerStatus extends Application {
         $this->data['playerCash'] = $this->players->cashForPlayer($selectedPlayer);
         
         $this->playerTransactions($selectedPlayer);
-        $this->holdings($selectedPlayer);
+        //$this->transHoldings($selectedPlayer);
+        $this->playerHoldings($selectedPlayer);
         $this->playerlist(); 
         $this->data['pagebody'] = 'players';
         $this->render();      
@@ -66,7 +67,7 @@ class PlayerStatus extends Application {
            // $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true);   
     }
     
-    private function holdings($playerName)
+    private function transHoldings($playerName)
     {
         $totalTransactions = $this->transactions->transactionSums($playerName);
         $allStocks = $this->stocks->all();
@@ -81,4 +82,18 @@ class PlayerStatus extends Application {
 		}
         $this->data['holdings'] = $holdings;
     }
+    
+    private function playerHoldings($playerName)
+    {
+        $source = $this->holdings->allForPlayer($playerName);
+        
+       foreach ($source as $record)
+       {
+            $holdings[] = array('Stock' => $record['Name'],
+                'Quantity' => $record['Quantity']);
+        }
+        $this->data['holdings'] = $holdings;
+        print_r($holdings);
+    }
+    
 }
