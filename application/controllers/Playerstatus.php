@@ -95,5 +95,6 @@ class PlayerStatus extends Application {
         $this->data['holdings'] = $holdings;
         print_r($holdings);
     }
-    
+
 }
+
