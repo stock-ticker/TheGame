@@ -11,7 +11,7 @@ class Application extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->data = array();
-        $this->data['pagetitle'] = 'Sample Image Gallery';
+        $this->data['pagetitle'] = 'Stock Ticker';
         $this->load->library('parser');
     }
     

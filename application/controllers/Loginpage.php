@@ -21,17 +21,25 @@ class LoginPage extends Application {
                 'logged_in' => TRUE
                );
             $this->session->set_userdata($userData); 
+        } else {
+            $userData = array(
+                'username'  => NULL,
+                'logged_in' => FALSE
+               );
+            $this->session->set_userdata($userData); 
         }
 
         if($this->session->userdata('logged_in') == TRUE)
         {
-            $this->data['loginStatus'] = 'logged in as ' . $this->session->userdata('username');  
+            $this->data['loginStatus'] = 'logged in as ' . $this->session->userdata('username');
+            $this->data['pagebody'] = 'logoutView';
         }
         else
         {
-            $this->data['loginStatus'] = 'Please Log In'; 
+            $this->data['loginStatus'] = 'Please Log In';
+            $this->data['pagebody'] = 'loginView';
         }
-        $this->data['pagebody'] = 'loginView';
+        
         $this->render();
     }
    
