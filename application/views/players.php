@@ -1,8 +1,58 @@
-<?php
+<h1>{selectedPlayer}</h1>
+<h2>Player Cash: ${playerCash}</h2>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<form id="playerSelector" action="/profile" method="post">   
+    <select name="playerSelector" onchange='if(this.value != 0) { this.form.submit(); }'>
+        {players}
+            <option value={Name}>{Name}</option>
+        {/players}
+    </select> 
+ </form>
 
+
+
+<div class="col-sm-6">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stock</th>
+                <th>Transaction</th>
+                <th>Quantity</th>
+                <th>DateTime</th>
+             </tr>
+        </thead>
+        <tbody>
+            {transactions}
+                <tr>
+                    <td>{Stock}</td>
+                    <td>{Trans}</td>
+                    <td>{Quantity}</td>
+                    <td>{DateTime}</td>
+                </tr>
+            {/transactions}
+        </tbody>
+        
+     </table>
+</div>
+
+<div class="col-sm-6">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stock</th>
+                <th>Code</th>
+                <th>Quantity</th>
+             </tr>
+        </thead>
+        <tbody>
+            {holdings}
+                <tr>
+                    <td>{Name}</td>
+                    <td>{Code}</td>
+                    <td>{Balance}</td>
+                </tr>
+            {/holdings}
+        </tbody>
+        
+     </table>
+</div>

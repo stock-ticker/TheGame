@@ -20,7 +20,7 @@
 		  <li class="active"></a></li>
 		  <li><a href="/homepage">Home</a></li>
 		  <li><a href="/history">Stock History</a></li>
-		  <li><a href="/user">Users</a></li>
+		  <li><a href="/profile">Player Profile</a></li>
 		  <li><a href="/login">{loginText}</a></li>
 		</ul>
 	  </div>
