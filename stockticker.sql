@@ -126,6 +126,32 @@ INSERT INTO `stocks` (`Code`, `Name`, `Category`, `Value`) VALUES
 ('OIL', 'Oil', 'B', 52),
 ('TECH', 'Tech', 'B', 37);
 
+
+DROP TABLE IF EXISTS holdings;
+CREATE TABLE IF NOT EXISTS holdings (
+    Player varchar(6) DEFAULT NULL,  
+    Stock varchar(4) DEFAULT NULL,
+    Quantity int(6) DEFAULT 0,
+PRIMARY KEY (Player, Stock)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `stocks`
+--
+
+INSERT INTO `holdings` (`Player`, `Stock`, `Quantity`) VALUES
+('Donald', 'BOND', 2000),
+('Henry', 'BOND', 1000),
+('George', 'BOND', 5000),
+('Donald', 'GOLD', 7000),
+('Henry', 'GOLD', 1000),
+('George', 'GOLD', 5000),
+('Mickey', 'GRAN', 5000),
+('Donald', 'TECH', 4000),
+('Henry', 'TECH', 1000),
+('George', 'TECH', 2000),
+('Mickey', 'TECH', 5000);
+
 -- --------------------------------------------------------
 
 --

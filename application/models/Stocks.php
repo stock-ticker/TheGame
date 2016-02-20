@@ -13,13 +13,14 @@ class Stocks extends CI_Model{
         parent::__construct();
     }
     
-    //return all images, descending order by post date
+    //return all stocks, descending order by post name
     function all()
     {   
            $this->db->order_by("Name", "desc");
            $query = $this->db->get('stocks');
            return $query->result_array();
     }
+
      function names(){
          $this->db->order_by("Name", "desc");
          $this->db->select('Name');
@@ -33,5 +34,6 @@ class Stocks extends CI_Model{
         $query = $this->db->get_where('stocks', array('Code' => $stock));
         return $query->row_array()['Name'];
      }
+
 
 }

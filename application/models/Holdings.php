@@ -1,6 +1,6 @@
 <?php
 
-class Transactions extends CI_Model{
+class Holdings extends CI_Model{
     
     function __construct()
     {
@@ -13,25 +13,25 @@ class Transactions extends CI_Model{
     function all()
     {      
            $this->db->order_by("DateTime", "desc");
-           $query = $this->db->get('transactions');
-           return $query->result_array();
-    }
-    /*
-     * returns all the transactions for the specified stock
-     */
-    function allForStock($stock)
-    {      $this->db->order_by("DateTime", "desc");
-           $query = $this->db->get_where('transactions', array('Stock' => $stock));
+           $query = $this->db->get('holdings');
            return $query->result_array();
     }
     
     /*
      * returns all the transactions for the specified player
      */
-    function allForPlayer($playerName)
-    {      $this->db->order_by("DateTime", "desc");
-           $query = $this->db->get_where('transactions', array('Player' => $playerName));
-           return $query->result_array();
+    function allForPlayer($playerName)        
+    {      
+        $query = $this->db->select('*')
+                    ->from('stocks')
+                    ->join('holdings', 'stocks.Code = holdings.Stock', ' left outer')
+                    ->where('Player', $playerName)
+                    ->or_where('Player', NULL)
+                    ->order_by("Quantity", "desc")
+                    ->get();
+        
+        return $query->result_array();
+        
     }
     
     /*

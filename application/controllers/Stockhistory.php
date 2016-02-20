@@ -23,24 +23,16 @@ class StockHistory extends Application {
                  $selectedStock = $this->transactions->mostRecent();
             }
             
-            $this->data['currentStock'] = $this->stocks->nameFromCode($selectedStock);
+            $this->data['currentStockName'] = $this->stocks->nameFromCode($selectedStock);
+            $this->data['currentStockCode'] = $selectedStock;
             $this->movements($selectedStock);
             $this->transactions($selectedStock);
             $this->stocklist();           
-
             $this->data['pagebody'] = 'stock_history';
-
             $this->render();
+            
+            
 	}
-    /*
-     * 
-     */   
-    public function selectStock()
-        {
-            $data = $this->input->post('stockSelector');
-
-            return $data;
-        }
     /*
      * passes an array of stock names and codes to the view. Used for the stock
      * select list
@@ -63,19 +55,17 @@ class StockHistory extends Application {
     {
         $source = $this->movements->allForStock($stockCode);
         if($source == NULL){
-            $this->data['move_panel'] = '<h3>No movement History</h3>';
+            $movements = array();   
         } 
-        else
+        foreach ($source as $record)
         {
-            foreach ($source as $record)
-            {
-                $movements[] = array('DateTime' => $record['Datetime'],
-                    'Action' => $record['Action'],
-                    'Amount' => $record['Amount']);
-            }
-            $this->data['movements'] = $movements;
-            $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);
+            $movements[] = array('DateTime' => $record['Datetime'],
+                'Action' => $record['Action'],
+                'Amount' => $record['Amount']);
         }
+        $this->data['movements'] = $movements;
+        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);
+
             
     }
      /*
@@ -86,19 +76,18 @@ class StockHistory extends Application {
     {
         $source = $this->transactions->allForStock($stockCode);
         if($source == NULL){
-            $this->data['trans_panel'] = '<h3>No transaction History</h3>';
+            $transactions = array();   
         }
-        else
-        {
+
             foreach ($source as $record)
             {
                 $transactions[] = array('DateTime' => $record['DateTime'],
                     'Player' => $record['Player'],
                     'Trans' => $record['Trans'],
                     'Quantity' => $record['Quantity']);
-            } 
+            }
             $this->data['transactions'] = $transactions;
             $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true); 
-        }
+        
     }
 }
