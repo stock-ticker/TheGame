@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 class Movements extends CI_Model{
     
     function __construct()
@@ -13,13 +7,23 @@ class Movements extends CI_Model{
         parent::__construct();
     }
     
-    //return all images, descending order by post date
+    /*
+     * returns all the rows from movements table
+     */
     function all()
     {
-         //  $this->db->order_by("Name", "desc");
-           $query = $this->db->get('movements');
-           return $query->result_array();
-           
-         return $query->result_array();
+        $this->db->order_by("DateTime", "desc");
+        $query = $this->db->get('movements');
+        return $query->result_array();
+    }
+    
+    /*
+     * returns all the rows from movements table for the specified stock
+     */
+    function allForStock($stock)
+    {   
+        $this->db->order_by("DateTime", "desc");  
+        $query = $this->db->get_where('movements', array('code' => $stock));
+        return $query->result_array();
     }
 }

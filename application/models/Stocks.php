@@ -26,4 +26,12 @@ class Stocks extends CI_Model{
          $query = $this->db->get('stocks');
          return $query->result_array();
      }
+     
+     function nameFromCode($stock)
+     {
+        $this->db->select('Name');
+        $query = $this->db->get_where('stocks', array('Code' => $stock));
+        return $query->row_array()['Name'];
+     }
+
 }

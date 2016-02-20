@@ -13,5 +13,5 @@ Team Members
 ************
 
 -Gaston Beaucage
--Sean
+-Sean Lavergne
 -Denis

@@ -1,34 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>{pagetitle}</title>
-        <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"/>
-        <link rel="stylesheet" type="text/css" media="all" href="css/reset.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/text.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/lightbox.css" />
-    </head>
-    <body>
-        <div id="wrapper">
-            <div id="header">
-                <span class="myhead">Simple Image Gallery</span>
-                <span class="mynav">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/gallery">Gallery</a></li>
-                        <li><a href="/about">About</a></li>
-                    </ul>
-                </span>
-            </div>
-            <div class="alone"></div>
-            <div id="content">
-                {content}
-            </div>
-            <div id="footer" class="span12">
-                Copyright &copy; 2014,  <a href="mailto:someone@somewhere.com">Me</a>.
-            </div>
-        </div>
-        <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script> 
-        <script type="text/javascript" src="js/lightbox.min.js"></script> 
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{pagetitle}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Stock Ticker</h1>
+    <!--<p></p>-->
+  </div>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+		<ul class="nav navbar-nav">
+		  <li class="active"></a></li>
+		  <li><a href="/homepage">Home</a></li>
+		  <li><a href="/history">Stock History</a></li>
+		  <li><a href="/user">Users</a></li>
+		  <li><a href="/login">Login</a></li>
+		</ul>
+	  </div>
+	</nav>
+  <div class="row">
+    {content}
+  </div>
+</div>
+
+</body>
 </html>

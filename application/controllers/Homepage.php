@@ -20,16 +20,31 @@ class Homepage extends Application {
 	 */
 	public function index()
 	{
-		$this->load->view('homepage');
-                stock();
-                players();
+		$this->data['pagebody'] = 'homepage'; 
+                $this->data['players_panel'] = $this->players();
+                $this->data['stocks_panel'] = $this->stocks();
+                $this->render();
 	}
         
-        function stock() {
-            
+        function stocks() {
+            $source = $this->stocks->all();
+            foreach ($source as $record)
+            {
+                $stocks[] = array('Name' => $record['Name'],
+                                  'Code' => $record['Code'],
+                                  'Category' => $record['Category'],
+                                  'Value' => $record['Value']);
+            }
+            return $stocks;
         }
         
         function players() {
-            
+            $source = $this->players->all();
+            foreach ($source as $record) 
+            {
+                $players[] = array('Player' => $record['Player'],
+                                   'Cash' => $record['Cash']);
+            }
+            return $players;
         }
 }
