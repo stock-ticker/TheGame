@@ -25,7 +25,6 @@ class PlayerStatus extends Application {
         $this->data['playerCash'] = $this->players->cashForPlayer($selectedPlayer);
         
         $this->playerTransactions($selectedPlayer);
-        //$this->transHoldings($selectedPlayer);
         $this->playerHoldings($selectedPlayer);
         $this->playerlist(); 
         $this->data['pagebody'] = 'players';
@@ -63,37 +62,29 @@ class PlayerStatus extends Application {
                     'Trans' => $record['Trans'],
                     'Quantity' => $record['Quantity']);
             }
-            $this->data['transactions'] = $transactions;
-           // $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true);   
+            $this->data['transactions'] = $transactions;   
     }
-    
-    private function transHoldings($playerName)
-    {
-        $totalTransactions = $this->transactions->transactionSums($playerName);
-        $allStocks = $this->stocks->all();
-        
-            foreach ($allStocks as $stock)
-		{   
-                    $balance = 0;
-                    $balance += $this->transactions->transactionSum($playerName, $stock['Code'], 'buy');
-                    $balance -= $this->transactions->transactionSum($playerName, $stock['Code'], 'sell');
-                    $holdings[] = array('Name' => $stock['Name'],
-                        'Code' => $stock['Code'], 'Balance' => $balance);
-		}
-        $this->data['holdings'] = $holdings;
-    }
+
     
     private function playerHoldings($playerName)
     {
         $source = $this->holdings->allForPlayer($playerName);
         
        foreach ($source as $record)
-       {
+       {    
+           if($record['Quantity'] == NULL)
+           {
+               $quantity = 0;
+           }
+           else
+           {
+               $quantity = $record['Quantity'];
+           } 
+           
             $holdings[] = array('Stock' => $record['Name'],
-                'Quantity' => $record['Quantity']);
+                'Quantity' => $quantity);
         }
         $this->data['holdings'] = $holdings;
-        print_r($holdings);
     }
 
 }

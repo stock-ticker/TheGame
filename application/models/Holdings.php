@@ -20,17 +20,18 @@ class Holdings extends CI_Model{
     /*
      * returns all the transactions for the specified player
      */
-    function allForPlayer($playerName)
-           
+    function allForPlayer($playerName)        
     {      
         $query = $this->db->select('*')
                     ->from('stocks')
-                    ->join('holdings', 'stocks.Code = holdings.Stock')
+                    ->join('holdings', 'stocks.Code = holdings.Stock', ' left outer')
                     ->where('Player', $playerName)
+                    ->or_where('Player', NULL)
                     ->order_by("Quantity", "desc")
                     ->get();
         
         return $query->result_array();
+        
     }
     
     /*

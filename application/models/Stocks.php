@@ -34,13 +34,6 @@ class Stocks extends CI_Model{
         $query = $this->db->get_where('stocks', array('Code' => $stock));
         return $query->row_array()['Name'];
      }
-     function holdings($playerName)
-     {
-        $this->db->select('*');
-        $this->db->from('blogs');
-        $this->db->join('comments', 'comments.id = blogs.id');
-        $query = $this->db->get();
-        return $query->result_array();
-     }
+
 
 }

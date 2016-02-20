@@ -3,6 +3,7 @@
 
 <form id="playerSelector" action="/profile" method="post">   
     <select name="playerSelector" onchange='if(this.value != 0) { this.form.submit(); }'>
+        <option disabled selected>select Player</option>
         {players}
             <option value={Name}>{Name}</option>
         {/players}
