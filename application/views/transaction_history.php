@@ -16,7 +16,8 @@
                     <td>{Quantity}</td>
                     <td>{DateTime}</td>
                 </tr>
-        {/transactions}
+            {/transactions}
         </tbody>
         
      </table>
+</div>

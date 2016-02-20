@@ -17,15 +17,25 @@ class PlayerStatus extends Application {
                 $selectedPlayer = $this->input->post('playerSelector');
             } else
             {
-                 $selectedPlayer = 'Donald';
+                if($this->session->userdata('logged_in'))
+                {
+                    $selectedPlayer = $this->session->userdata('username');
+                }
+                else
+                {
+                    $selectedPlayer = 'Please Select A Player';
+                }
             }
+            
+       
+
         
         
         $this->data['selectedPlayer'] = $selectedPlayer;
         $this->data['playerCash'] = $this->players->cashForPlayer($selectedPlayer);
         
         $this->playerTransactions($selectedPlayer);
-        $this->holdings($selectedPlayer);
+        $this->playerHoldings($selectedPlayer);
         $this->playerlist(); 
         $this->data['pagebody'] = 'players';
         $this->render();      
@@ -62,23 +72,30 @@ class PlayerStatus extends Application {
                     'Trans' => $record['Trans'],
                     'Quantity' => $record['Quantity']);
             }
-            $this->data['transactions'] = $transactions;
-           // $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true);   
+            $this->data['transactions'] = $transactions;   
     }
+
     
-    private function holdings($playerName)
+    private function playerHoldings($playerName)
     {
-        $totalTransactions = $this->transactions->transactionSums($playerName);
-        $allStocks = $this->stocks->all();
+        $source = $this->holdings->allForPlayer($playerName);
         
-            foreach ($allStocks as $stock)
-		{   
-                    $balance = 0;
-                    $balance += $this->transactions->transactionSum($playerName, $stock['Code'], 'buy');
-                    $balance -= $this->transactions->transactionSum($playerName, $stock['Code'], 'sell');
-                    $holdings[] = array('Name' => $stock['Name'],
-                        'Code' => $stock['Code'], 'Balance' => $balance);
-		}
+       foreach ($source as $record)
+       {    
+           if($record['Quantity'] == NULL)
+           {
+               $quantity = 0;
+           }
+           else
+           {
+               $quantity = $record['Quantity'];
+           } 
+           
+            $holdings[] = array('Stock' => $record['Name'],
+                'Quantity' => $quantity);
+        }
         $this->data['holdings'] = $holdings;
     }
+
 }
+

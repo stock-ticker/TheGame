@@ -3,6 +3,7 @@
 
 <form id="playerSelector" action="/profile" method="post">   
     <select name="playerSelector" onchange='if(this.value != 0) { this.form.submit(); }'>
+        <option disabled selected>select Player</option>
         {players}
             <option value={Name}>{Name}</option>
         {/players}
@@ -40,16 +41,14 @@
         <thead>
             <tr>
                 <th>Stock</th>
-                <th>Code</th>
                 <th>Quantity</th>
              </tr>
         </thead>
         <tbody>
             {holdings}
                 <tr>
-                    <td>{Name}</td>
-                    <td>{Code}</td>
-                    <td>{Balance}</td>
+                    <td>{Stock}</td>
+                    <td>{Quantity}</td>
                 </tr>
             {/holdings}
         </tbody>

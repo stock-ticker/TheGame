@@ -2,7 +2,7 @@
 
 <form id="stock" action="/history" method="post">   
     <select name="stockSelector" onchange='if(this.value != 0) { this.form.submit(); }'>
-        <option value={currentStockCode} selected>{currentStockName}</option>
+              <option disabled selected>Select Stock</option>
         {stocks}
             <option value={Code}>{Name}</option>
         {/stocks}

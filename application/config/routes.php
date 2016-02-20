@@ -53,7 +53,7 @@ $route['default_controller'] = 'homepage';
 $route['404_override'] = '';
 //$route['translate_uri_dashes'] = FALSE;
 
-$route['history'] = 'stockHistory';
-$route['login'] = 'loginPage';
+$route['history'] = 'Stockhistory';
+$route['login'] = 'Loginpage';
 $route['player/(:any)'] = "PlayerStatus/index/$1";
-$route['profile'] = 'playerStatus';
+$route['profile'] = 'Playerstatus';

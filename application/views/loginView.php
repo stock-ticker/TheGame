@@ -1,5 +1,5 @@
 <h1>{loginStatus}</h1>
-<form action="/loginPage/index" method="post">
+<form action="/login" method="post">
      <label for="username">Username:</label>
      <input type="text" size="20" id="username" name="username"/>
      <br/>
