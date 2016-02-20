@@ -17,8 +17,18 @@ class PlayerStatus extends Application {
                 $selectedPlayer = $this->input->post('playerSelector');
             } else
             {
-                 $selectedPlayer = 'Donald';
+                if($this->session->userdata('logged_in'))
+                {
+                    $selectedPlayer = $this->session->userdata('username');
+                }
+                else
+                {
+                    $selectedPlayer = 'Please Select A Player';
+                }
             }
+            
+       
+
         
         
         $this->data['selectedPlayer'] = $selectedPlayer;
