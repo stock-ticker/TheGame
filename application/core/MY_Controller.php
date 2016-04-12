@@ -16,18 +16,53 @@ class Application extends CI_Controller {
     }
     
     function render() {
-        if($this->session->userdata('logged_in') == TRUE)
-        {
-            $this->data['loginText'] = $this->session->userdata('username');  
-        }
-        else
-        {
-            $this->data['loginText'] = 'Login'; 
-        }
-        $this->data['menubar'] = $this->choices;
+        $mychoices = array('menudata' => $this->makemenu());
+        
+        $this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->data['data'] = &$this->data;
         $this->parser->parse('template', $this->data);
+    }
+    
+    function makemenu() {
+            $choices = array();
+
+            $userRole = $this->session->userdata('userRole'); 
+            $userName = $this->session->userdata('userName');
+
+            if($userRole == "admin") {
+                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
+                $choices[] = array('name' => "Beta", 'link' => '/beta');
+                $choices[] = array('name' => "Gamma", 'link' => '/gamma');
+                $choices[] = array('name' => "Logout", 'link' => '/auth/logout');
+            }
+            if($userRole == "user") {
+                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
+                $choices[] = array('name' => "Beta", 'link' => '/beta');
+                $choices[] = array('name' => $userName, 'link' => '/loginpage/logout');
+            }
+            if($userRole == null) {
+                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
+                $choices[] = array('name' => "Login", 'link' => '/loginpage');
+                $choices[] = array('name' => "Sign up", 'link' => '/register');
+            }
+            return $choices;
+    }
+    
+    function restrict($roleNeeded = null) {
+        $userRole = $this->session->userdata('userRole');
+        
+        if ($roleNeeded != null) {
+            if (is_array($roleNeeded)) {
+                if (!in_array($userRole, $roleNeeded)) {
+                    redirect("/");
+                    return;
+                }
+            } else if ($userRole != $roleNeeded) {
+                redirect("/");
+                return;
+            }
+        }
     }
 }
 
