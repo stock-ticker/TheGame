@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Loginpage extends Application {
+class Manageaccn extends Application {
     
     function __construct() {
         parent::__construct();

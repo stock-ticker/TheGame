@@ -14,18 +14,9 @@
     <h1>Stock Ticker</h1>
     <!--<p></p>-->
   </div>
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-		<ul class="nav navbar-nav">
-		  <li class="active"></a></li>
-		  <li><a href="/homepage">Home</a></li>
-		  <li><a href="/history">Stock History</a></li>
-		  <li><a href="/profile">Player Profile</a></li>
-                  <li><a href="/gameplay">Play!</a></li>
-		  <li><a href="/login">{loginText}</a></li>
-		</ul>
-	  </div>
-	</nav>
+
+    {menubar}
+
   <div class="row">
     {content}
   </div>

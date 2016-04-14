@@ -28,53 +28,49 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `movements`;
 CREATE TABLE IF NOT EXISTS `movements` (
+  seq int DEFAULT NULL,
   `Datetime` varchar(19) DEFAULT NULL,
   `Code` varchar(4) DEFAULT NULL,
   `Action` varchar(4) DEFAULT NULL,
   `Amount` int(2) DEFAULT NULL,
-PRIMARY KEY (Code, Datetime)
+PRIMARY KEY (seq)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `movements`
 --
 
-INSERT INTO `movements` (`Datetime`, `Code`, `Action`, `Amount`) VALUES
-('2016.02.01-09:01:00', 'BOND', 'down', 5),
-('2016.02.01-09:01:02', 'IND', 'div', 5),
-('2016.02.01-09:01:04', 'OIL', 'down', 10),
-('2016.02.01-09:01:06', 'GOLD', 'div', 5),
-('2016.02.01-09:01:08', 'BOND', 'up', 20),
-('2016.02.01-09:01:10', 'GOLD', 'div', 5),
-('2016.02.01-09:01:12', 'GOLD', 'down', 20),
-('2016.02.01-09:01:14', 'IND', 'div', 10),
-('2016.02.01-09:01:16', 'OIL', 'up', 20),
-('2016.02.01-09:01:18', 'BOND', 'down', 5),
-('2016.02.01-09:01:20', 'BOND', 'up', 5),
-('2016.02.01-09:01:22', 'BOND', 'div', 20),
-('2016.02.01-09:01:24', 'BOND', 'div', 20),
-('2016.02.01-09:01:26', 'GOLD', 'div', 20),
-('2016.02.01-09:01:28', 'IND', 'up', 20),
-('2016.02.01-09:01:30', 'OIL', 'down', 20),
-('2016.02.01-09:01:32', 'GRAN', 'down', 20),
-('2016.02.01-09:01:34', 'BOND', 'up', 5),
-('2016.02.01-09:01:36', 'GOLD', 'down', 20),
-('2016.02.01-09:01:38', 'GOLD', 'down', 20),
-('2016.02.01-09:01:40', 'TECH', 'down', 20),
-('2016.02.01-09:01:42', 'TECH', 'up', 5),
-('2016.02.01-09:01:44', 'OIL', 'up', 20),
-('2016.02.01-09:01:46', 'BOND', 'up', 5),
-('2016.02.01-09:01:48', 'GOLD', 'div', 10),
-('2016.02.01-09:01:50', 'GOLD', 'down', 5),
-('2016.02.01-09:01:52', 'GOLD', 'up', 20),
-('2016.02.01-09:01:54', 'IND', 'down', 10),
-('2016.02.01-09:01:56', 'GOLD', 'div', 20);
+
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `players`
---
+
+# create a users table for authentication
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+`id` varchar(10) NOT NULL,
+`name` varchar(20) NOT NULL,
+`password` varchar(64) NOT NULL,
+`role` varchar(20) NOT NULL,
+`cash` int(4) DEFAULT 5000,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `users` (`id`, `name`, password, role, cash) VALUES
+('Admin', 'Admin', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'admin', 10000),
+('Player', 'Player', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'user', 10000);
+
+# create the sessions storage file
+DROP TABLE IF EXISTS `ci_sessions`;
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+        `id` varchar(40) NOT NULL,
+        `ip_address` varchar(45) NOT NULL,
+        `timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
+        `data` blob NOT NULL,
+        PRIMARY KEY (id),
+        KEY `ci_sessions_timestamp` (`timestamp`)
+);
+
 
 DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
