@@ -28,5 +28,9 @@ class Gameplay extends CI_Model{
     
     //3: Method to sell stock
     
-    //4: 
+    //4: Method to parse current player name
+    
+    //5: Method to parse player assets
+    
+    
 }

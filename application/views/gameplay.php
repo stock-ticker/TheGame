@@ -59,22 +59,25 @@
     <div class="col-sm-6"></div>
     <div class="col-sm-6">
     Quantity:<input type="text" id="quantity" name="quantity" size ="10">
-    <input class="btn btn-primary" type="submit" value="Buy">
-    <input class="btn btn-success" type="submit" value="Sell">
+    <input class="btn btn-primary" onclick="buyStock()" value="Buy">
+    <input class="btn btn-success" onclick="sellStock()" value="Sell">
     </div>
 </form>
 <div class="col-sm-6"></div>
 <div class ="price col-sm-6">Expected Cost:
     
     <script type="text/javascript">
-        function moneyCheck() 
+        function buyStock() 
         {
             //Check to see if player has adequate funds before making call to server
+            
+            alert("Insufficient Cash for purchase, please adjust quantity.");
         }
         
-        function stockCheck()
+        function sellStock()
         {
             //Check to see if player has adequate stocks before making call to server
+            alert("Quantity to be sold is greater than  quantity owned, please adjust Quantity");
         }
         
         function getExpected()
