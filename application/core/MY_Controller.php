@@ -16,8 +16,9 @@ class Application extends CI_Controller {
     }
     
     function render() {
+        $this->load->helper('bsxserver');
+        $this->bsxSync();
         $mychoices = array('menudata' => $this->makemenu());
-        
         $this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->data['data'] = &$this->data;
@@ -63,6 +64,15 @@ class Application extends CI_Controller {
                 return;
             }
         }
+    }
+    
+    public function bsxSync()
+    {
+        $this->load->helper('bsxserver');
+        registerAgent('G02', 'theTeam', 'tuesday');
+        $this->gamestate->getState()['stateDesc'];
+        $this->stocks->syncStocks();
+        $this->movements->syncMovements();
     }
 }
 
