@@ -24,7 +24,7 @@ class Register extends Application {
         $user->password = password_hash($pword, PASSWORD_DEFAULT);
         $user->role = "user";
         $this->users->add((array) $user);
-        $this->session->set_userdata('userID',$userid);
+        $this->session->set_userdata('userID', $user->id);
         $this->session->set_userdata('userName', $user->name);
         $this->session->set_userdata('userRole', $user->role);
         redirect('/');
