@@ -14,7 +14,9 @@
     <h1>Stock Ticker</h1>
     <!--<p></p>-->
   </div>
+
     {menubar}
+
   <div class="row">
     {content}
   </div>

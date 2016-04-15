@@ -26,4 +26,6 @@ class Players extends CI_Model{
         $query = $this->db->get_where('players', array('Player' => $playerName));
         return $query->row_array()['Cash'];
      }
+     
+     //add player
 }

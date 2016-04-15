@@ -44,9 +44,33 @@ PRIMARY KEY (seq)
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `players`
---
+
+# create a users table for authentication
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+`id` varchar(10) NOT NULL,
+`name` varchar(20) NOT NULL,
+`password` varchar(64) NOT NULL,
+`role` varchar(20) NOT NULL,
+`cash` int(4) DEFAULT 5000,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `users` (`id`, `name`, password, role, cash) VALUES
+('Admin', 'Admin', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'admin', 10000),
+('Player', 'Player', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'user', 10000);
+
+# create the sessions storage file
+DROP TABLE IF EXISTS `ci_sessions`;
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+        `id` varchar(40) NOT NULL,
+        `ip_address` varchar(45) NOT NULL,
+        `timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
+        `data` blob NOT NULL,
+        PRIMARY KEY (id),
+        KEY `ci_sessions_timestamp` (`timestamp`)
+);
+
 
 DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
