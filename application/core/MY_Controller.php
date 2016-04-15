@@ -69,10 +69,39 @@ class Application extends CI_Controller {
     public function bsxSync()
     {
         $this->load->helper('bsxserver');
-        registerAgent('G02', 'theTeam', 'tuesday');
+        $this->registerAgent('G02', 'theTeam', 'tuesday');
         $this->gamestate->getState()['stateDesc'];
         $this->stocks->syncStocks();
         $this->movements->syncMovements();
+    }
+//public $agentAuth = 'sdfg';
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        //$xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+        //echo $xml_resp;
+        $this->session->set_userdata('token', (string)$response);
+       
+        /*
+        if($response != null)
+        {
+            $xml_resp = new SimpleXMLElement($response);
+            echo $response;
+        } else
+        {
+            echo "register response is null";
+        }
+        */
     }
 }
 

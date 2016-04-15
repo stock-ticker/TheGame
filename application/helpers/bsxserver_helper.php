@@ -5,7 +5,7 @@ function bsxSync()
     {
         registerAgent('G02', 'theTeam', 'tuesday');
         echo $this->gamestate->getState()['stateDesc'];
-        $this->syncStocks();
+        $this->stocks->syncStocks();
         $this->movements->syncMovements();
     }
     //Attemts to register a new agent with the specified user info
@@ -23,6 +23,7 @@ function registerAgent($teamId, $teamName, $password) {
         $response = curl_exec($curl);
         
         curl_close($curl);
+        $agentAuth = $response;
         /*
         if($response != null)
         {
