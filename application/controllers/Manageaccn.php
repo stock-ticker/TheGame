@@ -9,26 +9,70 @@ class Manageaccn extends Application {
     }
     
     function index() {
-        $this->data['pagebody'] = 'loginView';
+        $this->data['pagebody'] = 'manageAccnView';
+        $this->data['name'] = $this->session->userdata('userName');
+        $this->data['ID'] = $this->session->userdata('userID');
+        $this->data['privilege'] = $this->session->userdata('userRole');
+        if($this->session->userdata('userRole') == "admin") {
+            $users = $this->users->all();
+            foreach ($users as $user) {
+                $deleteUser[] = array('userID' => $user->id);
+            }
+            $this->data['deleteUser'] = $deleteUser;
+            $this->data['editUser'] = $deleteUser;
+            $this->data['adminView'] = $this->parser->parse('adminView', $this->data, true);
+        } else {
+            $this->data['adminView'] = '';
+        }
         $this->render();
     }
     
     function submit() {
-        $key = $this->input->post('userid');
-        $user = $this->users->get($key);
-        if (password_verify($this->input->post('password'),$user->password)) {
-            $this->session->set_userdata('userID',$key);
+        $user = $this->users->get($this->session->userdata('userID'));
+        if (password_verify($this->input->post('oldPassword'),$user->password)) {
+            $user->name = $this->input->post('name');
+            $user->password = password_hash($this->input->post('newPassword'), PASSWORD_DEFAULT);
+            $this->users->delete($this->session->userdata('userID'));
+            $this->users->add((array) $user);
             $this->session->set_userdata('userName',$user->name);
-            $this->session->set_userdata('userRole',$user->role);
             redirect('/');
         } else{
-            redirect('/Loginpage');
+            redirect('/Manageaccn');
         }
-        
     }
     
-    function logout() {
-        $this->session->sess_destroy();
-        redirect('/');
+    function deleteUser() {
+        $userID =$this->input->post('deleteUser');
+        $this->users->delete($userID);
+        redirect('/Manageaccn');
+    }
+    
+    function createUser() {
+        $name = $this->input->post('name');
+        $id = $this->input->post('userid');
+        $pword = $this->input->post('password');
+        $privilege = $this->input->post('selectPrivilege');
+        $user = $this->users->create();
+        $user->id = $id;
+        $user->name = $name;
+        $user->password = password_hash($pword, PASSWORD_DEFAULT);
+        $user->role = $privilege;
+        $this->users->add((array) $user);
+        redirect('/Manageaccn');
+    }
+    
+    function editUser() {
+        $this->users->delete($this->input->post('editUser'));
+        $id = $this->input->post('editUser');
+        $name = $this->input->post('name');
+        $pword = $this->input->post('password');
+        $privilege = $this->input->post('selectPrivilege');
+        $user = $this->users->create();
+        $user->id = $id;
+        $user->name = $name;
+        $user->password = password_hash($pword, PASSWORD_DEFAULT);
+        $user->role = $privilege;
+        $this->users->add((array) $user);
+        redirect('/Manageaccn');
     }
 }
