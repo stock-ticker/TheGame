@@ -27,6 +27,17 @@ class Register extends Application {
         $this->session->set_userdata('userID', $user->id);
         $this->session->set_userdata('userName', $user->name);
         $this->session->set_userdata('userRole', $user->role);
-        redirect('/');
+        
+        $config['upload_path'] = './assets/avatars/';
+        $config['file_name'] = $id;
+        $config['allowed_types'] = 'gif|jpg|png';
+        
+        $this->load->library('upload', $config);
+        
+        if(!$this->upload->do_upload('avatar')) {
+            echo($this->upload->display_errors());
+        }
+        
+        //redirect('/');
     }
 }
