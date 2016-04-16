@@ -16,8 +16,9 @@ class Application extends CI_Controller {
     }
     
     function render() {
+        $this->load->helper('bsxserver');
+        $this->bsxSync();
         $mychoices = array('menudata' => $this->makemenu());
-        
         $this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->data['data'] = &$this->data;
@@ -57,6 +58,44 @@ class Application extends CI_Controller {
                 return;
             }
         }
+    }
+    
+    public function bsxSync()
+    {
+        $this->load->helper('bsxserver');
+        $this->registerAgent('G02', 'theTeam', 'tuesday');
+        $this->gamestate->getState()['stateDesc'];
+        $this->stocks->syncStocks();
+        $this->movements->syncMovements();
+    }
+//public $agentAuth = 'sdfg';
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
+       
+        /*
+        if($response != null)
+        {
+            $xml_resp = new SimpleXMLElement($response);
+            echo $response;
+        } else
+        {
+            echo "register response is null";
+        }
+        */
     }
 }
 

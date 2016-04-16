@@ -29,7 +29,7 @@ class Movements extends CI_Model{
     
     function syncMovements() {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/data/movement');
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/data/movement');
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl);
@@ -38,7 +38,8 @@ class Movements extends CI_Model{
         $this->db->where('Code !=', 'NULL');
         $this->db->delete('movements');
         // loop through csv to get array
-
+        $rows = 10;
+        if (count($csv) < $rows){$rows = count($csv);}
         for ($i = 1; $i < count($csv); $i++) {
             $move = str_getcsv($csv[$i], ",");
             
