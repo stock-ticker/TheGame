@@ -85,6 +85,5 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('BSX_URL', 'http://bsx.jlparry.com');
+define('TEAM_ID', 'g02');
 
-
-//define('BSX_URL', 'comp4711bsx.local');

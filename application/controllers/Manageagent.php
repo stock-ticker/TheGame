@@ -5,12 +5,13 @@ class Manageagent extends Application {
 
     public function index()
     {
+        $this->bsxSync();
         $this->data['pagebody'] = 'management';  
         // $this->bsxSync()
         echo '   STATE:' . $this->gamestate->getState()['stateDesc'] . $this->gamestate->getState()['countdown'];
         echo '    TOKEN: ' . $this->session->userdata('token');
         echo '   USERNAME: ' . $this->session->userdata('userName');
-        echo $this->buy('BOND', 10);
+        echo $this->buy('GOLD', 10);
         ///echo '   CERTIFICATE: ' . $this->session->userdata('certificate');
         $this->render();
     } 
@@ -70,32 +71,84 @@ class Manageagent extends Application {
         return 'Purchased';     
     }
     
-    function sell($stock, $quantity)
+       function sell($stock, $quantity)
     {
-        $url = BSX_URL . '/buy';
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL,"http://bsx.jlparry.com/buy");
+        $url = 'http://bsx.jlparry.com/sell';
+        $player = $this->session->userdata('userName');
+        if($player == null)
+        {
+            return 'no logged in player';
+        }
+        
+        $agentToken = $this->session->userdata('token');
+        if($agentToken == null)
+        {
+            return 'no agent token';
+        }
+        $certificate = $this->holdings->getCertificate($player, $stock);
+        echo 'SELLING CERTIFICATE:'. $certificate;
+        //attempt to sell stocks
+        $ch = curl_init();   
+        curl_setopt($ch, CURLOPT_URL, BSX_URL . '/buy');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,           
             array('team' => 'g02',
-              'token' => $this->session->userdata('token'),
-              'player' => $this->session->userdata('userName'),
+              'token' => $agentToken,
+              'player' =>  $player,
               'stock' => $stock,
-              'quantity' => $quantity));
-            //"team=g02&token=$token&player=$player&stock=$stock&quantity=$quantity");
-
+              'quantity' => $quantity,
+              'certificate' => $certificate));
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec ($ch);
-        
-        $xml_resp = new SimpleXMLElement($response);
-       // $this->session->set_userdata('certificate', $xml_resp->certificate->__toString());
-        $this->session->set_userdata('certificate', 'asdf');
         curl_close ($ch);
+        $xml_resp = new SimpleXMLElement($response);
+        if($xml_resp->token->__toString() == null)
+        {
+            echo $response;
+            return 'failed to sell';
+        }
         
-       // echo 'CERTIFICATE:' . $xml_resp->certificate->__toString();
+        //sync stock info with BSX server
+        $this->stocks->syncStocks();
         
+        //update player info
+        $PurchaseValue = $this->stocks->valueFromCode($stock) * $quantity;
+        $this->holdings->deleteWithCertificate($certificate);
+        $this->users->subtractCash($player, $PurchaseValue * (-1));
         
+        return 'Sold';     
+    }
+    
+    public function bsxSync()
+    { 
+        if(time() - $this->session->userdata('lastRegistered') > 100 || $this->session->userdata('lastRegistered') == null)
+        {
+          $this->registerAgent('G02', 'theTeam', 'tuesday');  
+        }
         
+        $this->gamestate->getState()['stateDesc'];
+        $this->stocks->syncStocks();
+        $this->movements->syncMovements();
+   
+    }
+ //Registers a new Agent
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
+        $this->session->set_userdata('lastRegistered', time());
     }
 }
