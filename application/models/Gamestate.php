@@ -8,7 +8,7 @@ class Gamestate extends CI_Model{
     
     public function getState() {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/status');
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/status');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HEADER, 0);
         $response = curl_exec($curl); 

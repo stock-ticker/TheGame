@@ -37,6 +37,7 @@ class Holdings extends CI_Model{
     /*
      * returns the Code of the stock with the most recent transaction
      */
+    
     function mostRecent()
     {
         $this->db->select('Stock');
@@ -61,6 +62,16 @@ class Holdings extends CI_Model{
         $this->db->where('Stock', $stock);
         $query = $this->db->get('transactions');
         return $query->row_array()['Quantity'];
+    }
+    function addStock($player, $stock, $quantity, $certificate)
+    {
+       $data = array(
+            'Player' => $player,
+            'Stock' => $stock,
+            'Quantity' => $quantity,
+            'Certificate' => $certificate
+        );
+        $this->db->insert('holdings', $data);  
     }
 
 }

@@ -76,15 +76,15 @@ class Application extends CI_Controller {
             'password' => $password,
         );
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/register');     
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
-        //$xml_resp = new SimpleXMLElement($response);
+        $xml_resp = new SimpleXMLElement($response);
         curl_close($curl);
-        //echo $xml_resp;
-        $this->session->set_userdata('token', (string)$response);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
        
         /*
         if($response != null)

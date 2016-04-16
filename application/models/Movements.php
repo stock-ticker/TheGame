@@ -29,7 +29,7 @@ class Movements extends CI_Model{
     
     function syncMovements() {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/data/movement');
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/data/movement');
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl);

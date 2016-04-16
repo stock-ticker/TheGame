@@ -23,11 +23,10 @@ class Stocks extends CI_Model{
     }
      
 
-    //update local db with latest stock info from BSX server
-    
+    //updates local db with latest stock info from BSX server
     function syncStocks() {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'http://bsx.jlparry.com/data/stocks');
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/data/stocks');
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl);
@@ -51,6 +50,7 @@ class Stocks extends CI_Model{
         }
     }
     
+    //returns all stock names as an array 
      function names(){
          $this->db->order_by("Name", "desc");
          $this->db->select('Name');
@@ -58,12 +58,19 @@ class Stocks extends CI_Model{
          return $query->result_array();
      }
      
+     //gets the name of the stock from its code
      function nameFromCode($stock)
      {
         $this->db->select('Name');
         $query = $this->db->get_where('stocks', array('Code' => $stock));
         return $query->row_array()['Name'];
      }
-
+  //gets the value of the stock from its code
+     function valueFromCode($stock)
+     {
+        $this->db->select('Value');
+        $query = $this->db->get_where('stocks', array('Code' => $stock));
+        return $query->row_array()['Value'];
+     }
 
 }
