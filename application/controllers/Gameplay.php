@@ -21,6 +21,7 @@ class Gameplay extends Application{
         
         public function index()
         {
+            $this->bsxSync();
             $this->data['pagebody'] = 'gameplay';
             //$this->data['player'] =
             //$this->data['equity'] =
@@ -83,5 +84,37 @@ class Gameplay extends Application{
         $this->users->subtractCash($player, $PurchaseValue);
         
         return 'Purchased';     
-    }     
+    } 
+
+    public function bsxSync()
+    {
+        if(time() - $this->session->userdata('lastRegistered') > 100 || $this->session->userdata('lastRegistered') == null)
+        {
+          $this->registerAgent('G02', 'theTeam', 'tuesday');  
+        }
+        
+        $this->gamestate->getState()['stateDesc'];
+        $this->stocks->syncStocks();
+        $this->movements->syncMovements();
+   
+    }
+    //Registers a new Agent
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
+        $this->session->set_userdata('lastRegistered', time());
+    }    
 }

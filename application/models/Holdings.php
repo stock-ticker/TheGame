@@ -73,5 +73,22 @@ class Holdings extends CI_Model{
         );
         $this->db->insert('holdings', $data);  
     }
+    
+    //get the certificate for stocks held by the player
+    function getCertificate($player, $stock)
+    {
+        $this->db->select('Certificate');
+        $this->db->where('Player', $player); 
+        $this->db->where('Stock', $stock); 
+        $query = $this->db->get('holdings');
+        return $query->row_array()['Certificate'];
+    }
+    
+    //delete held stocks with certificate
+    function deleteWithCertificate($certificate)
+    {
+        $this->db->where('Certificate', $certificate);
+        $this->db->delete('holdings'); 
+    }
 
 }
