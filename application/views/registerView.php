@@ -2,7 +2,7 @@
 
 ?>
 
-<form name="login" method="post" action="/register/submit">
+<form name="login" method="post" action="/register/submit" enctype="multipart/form-data">
     Name: <input type="text" name="name" required></input><br/>
     UserID: <input type="text" name="userid" required></input><br/>
     Password: <input type="password" name="password" required></input><br/>

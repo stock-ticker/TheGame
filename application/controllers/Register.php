@@ -36,8 +36,11 @@ class Register extends Application {
         
         if(!$this->upload->do_upload('avatar')) {
             echo($this->upload->display_errors());
+        } else
+        {
+           redirect('/'); 
         }
         
-        //redirect('/');
+        
     }
 }
