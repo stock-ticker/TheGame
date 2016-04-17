@@ -8,7 +8,7 @@ class Players extends CI_Model{
     {
         parent::__construct();
     }
-    
+    /*
     //return all players, descending order by player name
     function all()
     { 
@@ -17,9 +17,7 @@ class Players extends CI_Model{
            return $query->result_array();
     }
     
-    /*
-     * returns the cash held by the specified player
-     */
+
     function cashForPlayer($playerName)
      {
         $this->db->select('Cash');
@@ -28,4 +26,6 @@ class Players extends CI_Model{
      }
      
      //add player
+
+     */
 }

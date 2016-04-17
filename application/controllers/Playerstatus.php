@@ -32,7 +32,7 @@ class PlayerStatus extends Application {
         
         
         $this->data['selectedPlayer'] = $selectedPlayer;
-        $this->data['playerCash'] = $this->players->cashForPlayer($selectedPlayer);
+        $this->data['playerCash'] = $this->users->getCash($selectedPlayer);
         
         $this->playerTransactions($selectedPlayer);
         $this->playerHoldings($selectedPlayer);
@@ -46,10 +46,10 @@ class PlayerStatus extends Application {
      */  
     public function playerlist()
     {
-        $source = $this->players->all();
+        $source = $this->users->all();
         foreach ($source as $record)
 	{
-            $players[] = array('Name' => $record['Player']);
+            $players[] = array('Name' => $record['name']);
 	}
         $this->data['players'] = $players;
     }
