@@ -46,7 +46,7 @@ class PlayerStatus extends Application {
      */  
     public function playerlist()
     {
-        $source = $this->users->all();
+        $source = $this->users->allPlayers();
         foreach ($source as $record)
 	{
             $players[] = array('Name' => $record['name']);

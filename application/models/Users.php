@@ -26,7 +26,7 @@ class Users extends MY_Model {
     }
     
     //return all players, descending order by player name
-    function all()
+    function allPlayers()
     { 
            $this->db->order_by("name", "desc");
            $query = $this->db->get('users');
