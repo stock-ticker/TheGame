@@ -40,7 +40,7 @@ class Homepage extends Application {
         }
         
         function players() {
-            $source = $this->users->all();
+            $source = $this->users->allPlayers();
             foreach ($source as $record) 
             {
                 $players[] = array('Player' => $record['name'],
