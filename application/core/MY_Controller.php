@@ -32,12 +32,10 @@ class Application extends CI_Controller {
             $userName = $this->session->userdata('userName');
 
             if($userRole != null) {
-                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
-                $choices[] = array('name' => "Beta", 'link' => '/beta');
+                $choices[] = array('name' => "Play!", 'link' => '/gameplay');
                 $choices[] = array('name' => $userName, 'link' => '/manageaccn');
                 $choices[] = array('name' => "Logout", 'link' => '/loginpage/logout');
             } else {
-                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
                 $choices[] = array('name' => "Login", 'link' => '/loginpage');
                 $choices[] = array('name' => "Sign up", 'link' => '/register');
             }

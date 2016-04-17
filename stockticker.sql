@@ -104,7 +104,7 @@ INSERT INTO `players` (`Player`, `Cash`) VALUES
 DROP TABLE IF EXISTS `stocks`;
 CREATE TABLE IF NOT EXISTS `stocks` (
   `Code` varchar(4) DEFAULT NULL,
-  `Name` varchar(10) DEFAULT NULL,
+  `Name` varchar(30) DEFAULT NULL,
   `Category` varchar(1) DEFAULT NULL,
   `Value` int(3) DEFAULT NULL,
 PRIMARY KEY (Code)
