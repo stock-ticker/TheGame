@@ -24,5 +24,14 @@ class Users extends MY_Model {
         $this->db->update('users', $data); 
 
     }
+    
+    //return all players, descending order by player name
+    function allPlayers()
+    { 
+           $this->db->order_by("name", "desc");
+           $query = $this->db->get('users');
+           return $query->result_array();
+    }
+
 
 }
