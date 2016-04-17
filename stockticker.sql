@@ -24,7 +24,8 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `movements`
---
+-- old version of sb had a players table, delete it just in case
+DROP TABLE IF EXISTS `players`;
 
 DROP TABLE IF EXISTS `movements`;
 CREATE TABLE IF NOT EXISTS `movements` (
@@ -71,35 +72,12 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
         KEY `ci_sessions_timestamp` (`timestamp`)
 );
 
-
-DROP TABLE IF EXISTS `players`;
-CREATE TABLE IF NOT EXISTS `players` (
-  `Player` varchar(6) DEFAULT NULL,
-  `Cash` int(4) DEFAULT NULL,
-  `Gold` int(5) DEFAULT 0,
-  `Technology` int(5) DEFAULT 0,
-  `Bonds` int(5) DEFAULT 0,
-  `Oil` int(5) DEFAULT 0,
-  `Industry` int(5) DEFAULT 0,
-  `Grain` int(5) DEFAULT 0,
-PRIMARY KEY (Player)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `players`
---
-
-INSERT INTO `players` (`Player`, `Cash`) VALUES
-('Mickey', 1000),
-('Donald', 3000),
-('George', 2000),
-('Henry', 2500);
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `stocks`
 --
+
 
 DROP TABLE IF EXISTS `stocks`;
 CREATE TABLE IF NOT EXISTS `stocks` (

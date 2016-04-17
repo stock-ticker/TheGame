@@ -130,5 +130,5 @@ $autoload['model'] = array();
 
 $autoload['helper'] = array('common', 'url');
 
-$autoload['model'] = array('stocks', 'movements', 'players', 'transactions', 'holdings', 'users', 'gamestate');
+$autoload['model'] = array('stocks', 'movements', 'transactions', 'holdings', 'users', 'gamestate');
 
