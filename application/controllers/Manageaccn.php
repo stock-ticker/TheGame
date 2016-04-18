@@ -9,9 +9,31 @@ class Manageaccn extends Application {
     }
     
     function index() {
+        $currentUserName = $this->session->userdata('userName');
+         
         $this->data['pagebody'] = 'manageAccnView';
-        $this->data['name'] = $this->session->userdata('username');
+        $this->data['name'] = $currentUserName;
+
         $this->data['ID'] = $this->session->userdata('userID');
+        
+
+         if(file_exists (FCPATH . '/assets/avatars/' . $currentUserName . '.png'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $currentUserName . '.png';
+        }
+        elseif(file_exists (FCPATH . '/assets/avatars/' . $currentUserName . '.gif'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $currentUserName . '.png';
+        }
+        elseif(file_exists (FCPATH . '/assets/avatars/' . $currentUserName . '.jpg'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $currentUserName . '.png';
+        }
+        else 
+        {
+            $this->data['imagePath'] = '/assets/avatars/defaultAvatar.png';
+        }
+        
         $this->data['privilege'] = $this->session->userdata('userRole');
         if($this->session->userdata('userRole') == "admin") {
             $users = $this->users->all();

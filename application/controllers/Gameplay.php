@@ -19,35 +19,95 @@ class Gameplay extends Application{
           parent::__construct();
         }
         
-        public function index()
+public function index()
         {
-            //$this->bsxSync();
-            $this->data['pagebody'] = 'gameplay';
+            $this->bsxSync();
+           
+           $stock = $this->input->post('stock');
+           $action = $this->input->post('action');
+           $response = '';
+            if($action == 'buy')
+            {
+                $response = $this->buy($stock, 10);
+
+            }
+            elseif($action == 'sell')
+            {
+              //
+                $response = $this->sell($stock, 10);
+
+            }
+            
+
+            if($stock != null)
+            {
+                $this->movements($stock);
+                $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true); 
+                
+            }
+            else
+            {
+               $this->data['move_panel'] = ''; 
+            }
+                
+ 
+              
+            $this->data['response'] = $response;
             $this->data['player'] = $this->session->userdata('username');
-            //$this->data['equity'] =
             $this->data['cash'] = $this->users->getCash($this->session->userdata('username'));
-            //$this->data['holdings'] =
-            //$this->data['marketboard'] = $this->fillMarket();
+            $this->playerHoldings();
+            $state = $this->gamestate->getState();
+            $this->data['gameState'] = $state['stateDesc'];
+            $this->data['pagebody'] = 'gameplay';
             $this->render();
         }
-        
-        public function fillMarket(){
-            $source = $this->gameplay->getMarketboard();
-            foreach ($source as $record)
-            {
-                $stocks[] = array('stock' => $record['stock'],
-                                  'code' => $record['code'],
-                                  'value' => $record['value'],
-                                  'radio' => $record['radio']);
-            }
-            return $stocks;
+    //gets recent stock movements for selected stock  
+    private function movements($stockCode)
+    {
+        $source = $this->movements->allForStock($stockCode);
+        if($source == NULL){
+            $movements = array();   
+        } 
+        foreach ($source as $record)
+        {
+            $movements[] = array('DateTime' => $record['Datetime'],
+                'Action' => $record['Action'],
+                'Amount' => $record['Amount']);
         }
+        $this->data['movements'] = $movements;
+        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);         
+    }
         
+        //gets the held stocks for the currently logged in player
+        private function playerHoldings()
+        {
+            $source = $this->holdings->allForPlayer($this->session->userdata('username'));
+        
+       foreach ($source as $record)
+       {    
+           if($record['Quantity'] == NULL)
+           {
+               $quantity = 0;
+           }
+           else
+           {
+               $quantity = $record['Quantity'];
+           } 
+           
+            $holdings[] = array('Stock' => $record['Name'],
+                                'Value' => $record['Value'],
+                                'Code' => $record['Code'],
+                                'Quantity' => $quantity);
+        }
+        $this->data['holdings'] = $holdings;
+    }
+
     //buys stock for the currently logged in player. Returns 'Purchased' on success, error message on failure
     function buy($stock, $quantity)
     {
+        $stock = $this->input->post('stock');       
         $url = 'http://bsx.jlparry.com/buy';
-        $player = $this->session->userdata('userName');
+        $player = $this->session->userdata('username');
         if($player == null)
         {
             return 'no logged in player';
@@ -94,9 +154,58 @@ class Gameplay extends Application{
         //update player info
         $this->holdings->addStock($player, $stock, $quantity, $xml_resp->token->__toString());
         $this->users->subtractCash($player, $PurchaseValue);
-        
+        $this->transactions->addTransaction($player, $stock, 'buy', $quantity);
         return 'Purchased';     
     } 
+    
+    function sell($stock, $quantity)
+    {
+        $url = 'http://bsx.jlparry.com/sell';
+        $player = $this->session->userdata('username');
+        if($player == null)
+        {
+            return 'no logged in player';
+        }
+        
+        $agentToken = $this->session->userdata('token');
+        if($agentToken == null)
+        {
+            return 'no agent token';
+        }
+        $certificate = $this->holdings->getCertificate($player, $stock);
+        echo 'SELLING CERTIFICATE:'. $certificate;
+        //attempt to sell stocks
+        $ch = curl_init();   
+        curl_setopt($ch, CURLOPT_URL, BSX_URL . '/buy');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,           
+            array('team' => 'g02',
+              'token' => $agentToken,
+              'player' =>  $player,
+              'stock' => $stock,
+              'quantity' => $quantity,
+              'certificate' => $certificate));
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec ($ch);
+        curl_close ($ch);
+        $xml_resp = new SimpleXMLElement($response);
+        if($xml_resp->token->__toString() == null)
+        {
+            echo $response;
+            return 'failed to sell';
+        }
+        
+        //sync stock info with BSX server
+        $this->stocks->syncStocks();
+        
+        //update player info
+        $PurchaseValue = $this->stocks->valueFromCode($stock) * $quantity;
+        $this->holdings->deleteWithCertificate($certificate);
+        $this->users->subtractCash($player, $PurchaseValue * (-1));
+        $this->transactions->addTransaction($player, $stock, 'sell', $quantity);
+        return 'Sold';     
+    }
 
     public function bsxSync()
     {
