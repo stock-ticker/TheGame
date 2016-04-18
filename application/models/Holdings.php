@@ -23,11 +23,13 @@ class Holdings extends CI_Model{
     function allForPlayer($playerName)        
     {      
         $query = $this->db->select('*')
+                    ->select_sum('Quantity')
                     ->from('stocks')
                     ->join('holdings', 'stocks.Code = holdings.Stock', ' left outer')
                     ->where('Player', $playerName)
                     ->or_where('Player', NULL)
                     ->order_by("Quantity", "desc")
+                    ->group_by("Code")
                     ->get();
         
         return $query->result_array();
