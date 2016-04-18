@@ -34,6 +34,24 @@ class PlayerStatus extends Application {
         $this->data['selectedPlayer'] = $selectedPlayer;
         $this->data['playerCash'] = $this->users->getCash($selectedPlayer);
         
+        if(file_exists (FCPATH . '/assets/avatars/' . $selectedPlayer . '.png'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $selectedPlayer . '.png';
+        }
+        elseif(file_exists (FCPATH . '/assets/avatars/' . $selectedPlayer . '.gif'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $selectedPlayer . '.png';
+        }
+        elseif(file_exists (FCPATH . '/assets/avatars/' . $selectedPlayer . '.jpg'))
+        {
+            $this->data['imagePath'] = '/assets/avatars/' . $selectedPlayer . '.png';
+        }
+        else 
+        {
+            $this->data['imagePath'] = '/assets/avatars/defaultAvatar.png';
+        }
+        
+        
         $this->playerTransactions($selectedPlayer);
         $this->playerHoldings($selectedPlayer);
         $this->playerlist(); 

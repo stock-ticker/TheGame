@@ -1,7 +1,8 @@
 <?php
 
 ?>
-<div class="col-sm-12">
+<div class="col-sm-12"> 
+    <img src="<?php echo base_url($imagePath)?>" alt="avatar" height="100" width="100">
     <h2>Current account information:</h2>
     <ul>
         <li style="list-style-type: none">Name: {name}</li>

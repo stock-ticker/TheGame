@@ -1,5 +1,6 @@
 <h1>{selectedPlayer}</h1>
 <h2>Player Cash: ${playerCash}</h2>
+<img src="<?php echo base_url($imagePath)?>" alt="avatar" height="100" width="100">
 
 <form id="playerSelector" action="/profile" method="post">   
     <select name="playerSelector" onchange='if(this.value != 0) { this.form.submit(); }'>
