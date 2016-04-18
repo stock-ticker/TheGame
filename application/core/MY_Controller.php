@@ -32,6 +32,7 @@ class Application extends CI_Controller {
             $choices[] = array('name' => "Home", 'link' => '/homepage');
             $choices[] = array('name' => "Stock History", 'link' => '/Stockhistory');
             if($userRole != null) {
+
                 $choices[] = array('name' => "Stocks", 'link' => '/Gameplay');
                 if($userRole == "admin") {
                     $choices[] = array('name' => "Manage Agent", 'link' => '/Manageagent');

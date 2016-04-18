@@ -21,14 +21,26 @@ class Gameplay extends Application{
         
         public function index()
         {
-            $this->bsxSync();
+            //$this->bsxSync();
             $this->data['pagebody'] = 'gameplay';
-            //$this->data['player'] =
+            $this->data['player'] = $this->session->userdata('username');
             //$this->data['equity'] =
-            //$this->data['cash] =
-            //$this->data['holdings] =
-            //$this->data['marketboard'
+            $this->data['cash'] = $this->users->getCash($this->session->userdata('username'));
+            //$this->data['holdings'] =
+            //$this->data['marketboard'] = $this->fillMarket();
             $this->render();
+        }
+        
+        public function fillMarket(){
+            $source = $this->gameplay->getMarketboard();
+            foreach ($source as $record)
+            {
+                $stocks[] = array('stock' => $record['stock'],
+                                  'code' => $record['code'],
+                                  'value' => $record['value'],
+                                  'radio' => $record['radio']);
+            }
+            return $stocks;
         }
         
     //buys stock for the currently logged in player. Returns 'Purchased' on success, error message on failure
