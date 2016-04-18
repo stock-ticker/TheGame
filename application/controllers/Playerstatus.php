@@ -10,7 +10,7 @@ class PlayerStatus extends Application {
 
     public function index()
     {   
-         
+        $this->bsxSync(); 
         
         if($this->input->post('playerSelector') != NULL)
             {
@@ -113,6 +113,36 @@ class PlayerStatus extends Application {
                 'Quantity' => $quantity);
         }
         $this->data['holdings'] = $holdings;
+    }
+    
+    //Syncs withthe bsx server
+    public function bsxSync()
+    {
+        if(time() - $this->session->userdata('lastRegistered') > 100 || $this->session->userdata('lastRegistered') == null)
+        {
+          $this->registerAgent('G02', 'theTeam', 'tuesday');  
+          $this->stocks->syncStocks();
+          $this->movements->syncMovements();
+        }
+    }
+    //Registers a new Agent
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
+        $this->session->set_userdata('lastRegistered', time());
     }
 
 }
