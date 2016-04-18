@@ -62,5 +62,19 @@ class Transactions extends CI_Model{
         $query = $this->db->get('transactions');
         return $query->row_array()['Quantity'];
     }
+    
+    //inserts a new transaction into the database
+    public function addTransaction($player, $stock, $transaction, $quantity)
+    {
+        $data = array(
+        'DateTime' => gmdate("Y.m.d-H:i:s", time()) ,
+        'Player' => $player ,
+        'Stock' => $stock,
+        'Trans' => $transaction,
+        'Quantity' => $quantity,
+        );
+
+        $this->db->insert('transactions', $data);   
+    }
 
 }

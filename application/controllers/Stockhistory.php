@@ -64,9 +64,7 @@ class StockHistory extends Application {
                 'Amount' => $record['Amount']);
         }
         $this->data['movements'] = $movements;
-        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);
-
-            
+        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);         
     }
      /*
      * gets the recent stock transactions for the specified stock

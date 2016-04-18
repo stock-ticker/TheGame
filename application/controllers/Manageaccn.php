@@ -15,7 +15,7 @@ class Manageaccn extends Application {
         $this->data['name'] = $currentUserName;
 
         $this->data['ID'] = $this->session->userdata('userID');
-       
+        
 
          if(file_exists (FCPATH . '/assets/avatars/' . $currentUserName . '.png'))
         {
