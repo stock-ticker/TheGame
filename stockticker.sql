@@ -24,80 +24,53 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `movements`
---
+-- old version of sb had a players table, delete it just in case
+DROP TABLE IF EXISTS `players`;
 
 DROP TABLE IF EXISTS `movements`;
 CREATE TABLE IF NOT EXISTS `movements` (
+  seq int DEFAULT NULL,
   `Datetime` varchar(19) DEFAULT NULL,
   `Code` varchar(4) DEFAULT NULL,
   `Action` varchar(4) DEFAULT NULL,
   `Amount` int(2) DEFAULT NULL,
-PRIMARY KEY (Code, Datetime)
+PRIMARY KEY (seq)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `movements`
 --
 
-INSERT INTO `movements` (`Datetime`, `Code`, `Action`, `Amount`) VALUES
-('2016.02.01-09:01:00', 'BOND', 'down', 5),
-('2016.02.01-09:01:02', 'IND', 'div', 5),
-('2016.02.01-09:01:04', 'OIL', 'down', 10),
-('2016.02.01-09:01:06', 'GOLD', 'div', 5),
-('2016.02.01-09:01:08', 'BOND', 'up', 20),
-('2016.02.01-09:01:10', 'GOLD', 'div', 5),
-('2016.02.01-09:01:12', 'GOLD', 'down', 20),
-('2016.02.01-09:01:14', 'IND', 'div', 10),
-('2016.02.01-09:01:16', 'OIL', 'up', 20),
-('2016.02.01-09:01:18', 'BOND', 'down', 5),
-('2016.02.01-09:01:20', 'BOND', 'up', 5),
-('2016.02.01-09:01:22', 'BOND', 'div', 20),
-('2016.02.01-09:01:24', 'BOND', 'div', 20),
-('2016.02.01-09:01:26', 'GOLD', 'div', 20),
-('2016.02.01-09:01:28', 'IND', 'up', 20),
-('2016.02.01-09:01:30', 'OIL', 'down', 20),
-('2016.02.01-09:01:32', 'GRAN', 'down', 20),
-('2016.02.01-09:01:34', 'BOND', 'up', 5),
-('2016.02.01-09:01:36', 'GOLD', 'down', 20),
-('2016.02.01-09:01:38', 'GOLD', 'down', 20),
-('2016.02.01-09:01:40', 'TECH', 'down', 20),
-('2016.02.01-09:01:42', 'TECH', 'up', 5),
-('2016.02.01-09:01:44', 'OIL', 'up', 20),
-('2016.02.01-09:01:46', 'BOND', 'up', 5),
-('2016.02.01-09:01:48', 'GOLD', 'div', 10),
-('2016.02.01-09:01:50', 'GOLD', 'down', 5),
-('2016.02.01-09:01:52', 'GOLD', 'up', 20),
-('2016.02.01-09:01:54', 'IND', 'down', 10),
-('2016.02.01-09:01:56', 'GOLD', 'div', 20);
+
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `players`
---
 
-DROP TABLE IF EXISTS `players`;
-CREATE TABLE IF NOT EXISTS `players` (
-  `Player` varchar(6) DEFAULT NULL,
-  `Cash` int(4) DEFAULT NULL,
-  `Gold` int(5) DEFAULT 0,
-  `Technology` int(5) DEFAULT 0,
-  `Bonds` int(5) DEFAULT 0,
-  `Oil` int(5) DEFAULT 0,
-  `Industry` int(5) DEFAULT 0,
-  `Grain` int(5) DEFAULT 0,
-PRIMARY KEY (Player)
+# create a users table for authentication
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+`id` varchar(10) NOT NULL,
+`name` varchar(20) NOT NULL,
+`password` varchar(64) NOT NULL,
+`role` varchar(20) NOT NULL,
+`cash` int(4) DEFAULT 5000,
+PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `players`
---
+INSERT INTO `users` (`id`, `name`, password, role, cash) VALUES
+('Admin', 'Admin', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'admin', 10000),
+('Player', 'Player', '$2y$10$bVnllRYlGpGbc5iMNht11ey/naXt0wcOjAKmwRf2ahZzwsV/73NLu', 'user', 10000);
 
-INSERT INTO `players` (`Player`, `Cash`) VALUES
-('Mickey', 1000),
-('Donald', 3000),
-('George', 2000),
-('Henry', 2500);
+# create the sessions storage file
+DROP TABLE IF EXISTS `ci_sessions`;
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+        `id` varchar(40) NOT NULL,
+        `ip_address` varchar(45) NOT NULL,
+        `timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
+        `data` blob NOT NULL,
+        PRIMARY KEY (id),
+        KEY `ci_sessions_timestamp` (`timestamp`)
+);
 
 -- --------------------------------------------------------
 
@@ -105,10 +78,11 @@ INSERT INTO `players` (`Player`, `Cash`) VALUES
 -- Table structure for table `stocks`
 --
 
+
 DROP TABLE IF EXISTS `stocks`;
 CREATE TABLE IF NOT EXISTS `stocks` (
   `Code` varchar(4) DEFAULT NULL,
-  `Name` varchar(10) DEFAULT NULL,
+  `Name` varchar(30) DEFAULT NULL,
   `Category` varchar(1) DEFAULT NULL,
   `Value` int(3) DEFAULT NULL,
 PRIMARY KEY (Code)
@@ -129,28 +103,21 @@ INSERT INTO `stocks` (`Code`, `Name`, `Category`, `Value`) VALUES
 
 DROP TABLE IF EXISTS holdings;
 CREATE TABLE IF NOT EXISTS holdings (
-    Player varchar(6) DEFAULT NULL,  
+    Player varchar(12) DEFAULT NULL,  
     Stock varchar(4) DEFAULT NULL,
     Quantity int(6) DEFAULT 0,
-PRIMARY KEY (Player, Stock)
+    Certificate varchar(12) DEFAULT NULL,
+PRIMARY KEY (Player, Stock, Certificate)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stocks`
 --
 
-INSERT INTO `holdings` (`Player`, `Stock`, `Quantity`) VALUES
-('Donald', 'BOND', 2000),
-('Henry', 'BOND', 1000),
-('George', 'BOND', 5000),
-('Donald', 'GOLD', 7000),
-('Henry', 'GOLD', 1000),
-('George', 'GOLD', 5000),
-('Mickey', 'GRAN', 5000),
-('Donald', 'TECH', 4000),
-('Henry', 'TECH', 1000),
-('George', 'TECH', 2000),
-('Mickey', 'TECH', 5000);
+-- INSERT INTO `holdings` (`Player`, `Stock`, `Quantity`) VALUES
+-- ('Donald', 'BOND', 2000),
+-- ('Henry', 'BOND', 1000),
+-- ('Mickey', 'TECH', 5000);
 
 -- --------------------------------------------------------
 

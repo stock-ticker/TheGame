@@ -15,6 +15,7 @@ class StockHistory extends Application {
      */    
     public function index()
 	{
+            $this->bsxSync();
             if($this->input->post('stockSelector') != NULL)
             {
                 $selectedStock = $this->input->post('stockSelector');
@@ -64,9 +65,7 @@ class StockHistory extends Application {
                 'Amount' => $record['Amount']);
         }
         $this->data['movements'] = $movements;
-        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);
-
-            
+        $this->data['move_panel'] = $this->parser->parse('movement_history', $this->data, true);         
     }
      /*
      * gets the recent stock transactions for the specified stock
@@ -90,4 +89,33 @@ class StockHistory extends Application {
             $this->data['trans_panel'] = $this->parser->parse('transaction_history', $this->data, true); 
         
     }
+    //syncs with the bsxserver
+    public function bsxSync()
+    {
+        if(time() - $this->session->userdata('lastRegistered') > 100 || $this->session->userdata('lastRegistered') == null)
+        {
+          $this->registerAgent('G02', 'theTeam', 'tuesday');  
+          $this->stocks->syncStocks();
+          $this->movements->syncMovements();
+        }
+    }
+    //Registers a new Agent
+    function registerAgent($teamId, $teamName, $password) {
+        $params = array(
+            'team' => $teamId,
+            'name' => $teamName,
+            'password' => $password,
+        );
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $xml_resp = new SimpleXMLElement($response);
+        curl_close($curl);
+
+        $this->session->set_userdata('token', $xml_resp->token->__toString());
+        $this->session->set_userdata('lastRegistered', time());
+    } 
 }

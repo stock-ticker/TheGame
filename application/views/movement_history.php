@@ -1,3 +1,4 @@
+<h3>Movements</h3>
 <div class="col-sm-6">
     <table class="table table-striped">
         <thead>
@@ -17,3 +18,4 @@
         </tbody>
         {/movements}
      </table>
+</div>

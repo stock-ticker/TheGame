@@ -83,7 +83,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array();
+$autoload['helper'] = array('bsxserver');
 
 /*
 | -------------------------------------------------------------------
@@ -130,5 +130,5 @@ $autoload['model'] = array();
 
 $autoload['helper'] = array('common', 'url');
 
-$autoload['model'] = array('stocks', 'movements', 'players', 'transactions', 'holdings');
+$autoload['model'] = array('stocks', 'movements', 'transactions', 'holdings', 'users', 'gamestate');
 

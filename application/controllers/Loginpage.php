@@ -1,46 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class LoginPage extends Application {
-
-    function __construct()
-    {
-	parent::__construct();
-                
-    }  
-    /*
-     * checks if the user logs in. Displays the username if the user is logged in.
-     * Updates the userName if the user submits a new username.
-     */ 
-    public function index()
-    {
-        if($this->input->post('username') != NULL)
-        {
-           $userData = array(
-                'username'  => $this->input->post('username'),
-                'logged_in' => TRUE
-               );
-            $this->session->set_userdata($userData); 
-        } else {
-            $userData = array(
-                'username'  => NULL,
-                'logged_in' => FALSE
-               );
-            $this->session->set_userdata($userData); 
-        }
-
-        if($this->session->userdata('logged_in') == TRUE)
-        {
-            $this->data['loginStatus'] = 'logged in as ' . $this->session->userdata('username');
-            $this->data['pagebody'] = 'logoutView';
-        }
-        else
-        {
-            $this->data['loginStatus'] = 'Please Log In';
-            $this->data['pagebody'] = 'loginView';
-        }
-        
+class Loginpage extends Application {
+    
+    function __construct() {
+        parent::__construct();
+        $this->load->helper('url');
+    }
+    
+    function index() {
+        $this->data['pagebody'] = 'loginView';
         $this->render();
     }
-   
+    
+    function submit() {
+        $key = $this->input->post('userid');
+        $user = $this->users->get($key);
+        if (password_verify($this->input->post('password'),$user->password)) {
+            $this->session->set_userdata('userID',$key);
+            $this->session->set_userdata('username',$user->name);
+            $this->session->set_userdata('userRole',$user->role);
+            redirect('/');
+        } else{
+            redirect('/Loginpage');
+        }
+        
+    }
+    
+    function logout() {
+        $this->session->sess_destroy();
+        redirect('/');
+    }
 }

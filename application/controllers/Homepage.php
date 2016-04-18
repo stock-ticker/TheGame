@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -39,11 +40,11 @@ class Homepage extends Application {
         }
         
         function players() {
-            $source = $this->players->all();
+            $source = $this->users->allPlayers();
             foreach ($source as $record) 
             {
-                $players[] = array('Player' => $record['Player'],
-                                   'Cash' => $record['Cash']);
+                $players[] = array('Player' => $record['name'],
+                                   'Cash' => $record['cash']);
             }
             return $players;
         }

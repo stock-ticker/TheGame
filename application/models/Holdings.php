@@ -23,11 +23,13 @@ class Holdings extends CI_Model{
     function allForPlayer($playerName)        
     {      
         $query = $this->db->select('*')
+                    ->select_sum('Quantity')
                     ->from('stocks')
                     ->join('holdings', 'stocks.Code = holdings.Stock', ' left outer')
                     ->where('Player', $playerName)
                     ->or_where('Player', NULL)
                     ->order_by("Quantity", "desc")
+                    ->group_by("Code")
                     ->get();
         
         return $query->result_array();
@@ -37,6 +39,7 @@ class Holdings extends CI_Model{
     /*
      * returns the Code of the stock with the most recent transaction
      */
+    
     function mostRecent()
     {
         $this->db->select('Stock');
@@ -61,6 +64,33 @@ class Holdings extends CI_Model{
         $this->db->where('Stock', $stock);
         $query = $this->db->get('transactions');
         return $query->row_array()['Quantity'];
+    }
+    function addStock($player, $stock, $quantity, $certificate)
+    {
+       $data = array(
+            'Player' => $player,
+            'Stock' => $stock,
+            'Quantity' => $quantity,
+            'Certificate' => $certificate
+        );
+        $this->db->insert('holdings', $data);  
+    }
+    
+    //get the certificate for stocks held by the player
+    function getCertificate($player, $stock)
+    {
+        $this->db->select('Certificate');
+        $this->db->where('Player', $player); 
+        $this->db->where('Stock', $stock); 
+        $query = $this->db->get('holdings');
+        return $query->row_array()['Certificate'];
+    }
+    
+    //delete held stocks with certificate
+    function deleteWithCertificate($certificate)
+    {
+        $this->db->where('Certificate', $certificate);
+        $this->db->delete('holdings'); 
     }
 
 }
