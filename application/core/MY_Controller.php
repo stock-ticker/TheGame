@@ -16,8 +16,6 @@ class Application extends CI_Controller {
     }
     
     function render() {
-        $this->load->helper('bsxserver');
-        $this->bsxSync();
         $mychoices = array('menudata' => $this->makemenu());
         $this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
@@ -31,16 +29,20 @@ class Application extends CI_Controller {
             $userRole = $this->session->userdata('userRole'); 
             $userName = $this->session->userdata('userName');
 
+            $choices[] = array('name' => "Home", 'link' => '/homepage');
+            $choices[] = array('name' => "Stock History", 'link' => '/Stockhistory');
             if($userRole != null) {
-                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
-                $choices[] = array('name' => "Beta", 'link' => '/beta');
+
+                $choices[] = array('name' => "Stocks", 'link' => '/Gameplay');
+                if($userRole == "admin") {
+                    $choices[] = array('name' => "Manage Agent", 'link' => '/Manageagent');
+                }
                 $choices[] = array('name' => $userName, 'link' => '/manageaccn');
                 $choices[] = array('name' => "Logout", 'link' => '/loginpage/logout');
-            } else {
-                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
-                $choices[] = array('name' => "Login", 'link' => '/loginpage');
-                $choices[] = array('name' => "Sign up", 'link' => '/register');
             }
+            $choices[] = array('name' => "Login", 'link' => '/loginpage');
+            $choices[] = array('name' => "Sign up", 'link' => '/register');
+            
             return $choices;
     }
     
@@ -59,43 +61,6 @@ class Application extends CI_Controller {
             }
         }
     }
-    
-    public function bsxSync()
-    {
-        $this->load->helper('bsxserver');
-        $this->registerAgent('G02', 'theTeam', 'tuesday');
-        $this->gamestate->getState()['stateDesc'];
-        $this->stocks->syncStocks();
-        $this->movements->syncMovements();
-    }
-//public $agentAuth = 'sdfg';
-    function registerAgent($teamId, $teamName, $password) {
-        $params = array(
-            'team' => $teamId,
-            'name' => $teamName,
-            'password' => $password,
-        );
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, BSX_URL . '/register');     
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        $xml_resp = new SimpleXMLElement($response);
-        curl_close($curl);
 
-        $this->session->set_userdata('token', $xml_resp->token->__toString());
-       
-        /*
-        if($response != null)
-        {
-            $xml_resp = new SimpleXMLElement($response);
-            echo $response;
-        } else
-        {
-            echo "register response is null";
-        }
-        */
-    }
 }
 
