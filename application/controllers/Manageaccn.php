@@ -10,7 +10,7 @@ class Manageaccn extends Application {
     
     function index() {
         $this->data['pagebody'] = 'manageAccnView';
-        $this->data['name'] = $this->session->userdata('userName');
+        $this->data['name'] = $this->session->userdata('username');
         $this->data['ID'] = $this->session->userdata('userID');
         $this->data['privilege'] = $this->session->userdata('userRole');
         if($this->session->userdata('userRole') == "admin") {
