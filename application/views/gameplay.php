@@ -1,6 +1,6 @@
 <div class="user">
     <div class="col-sm-12">
-        {player}
+        <h2>{player}</h2>
     </br>
     Equity: {equity}</br>
     Cash: {cash}</br>
@@ -8,6 +8,7 @@
 </div>
 
 <div class="holdings col-sm-6">
+    Round:<div class ="round"></div>
     <table class="table table-striped">
         <thead>
               <tr>
@@ -33,13 +34,13 @@
 
 <form>
     <div class="marketboard col-sm-6">
+        <div class ="countdown"></div>
         <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Stock</th>
                         <th>Code</th>
                         <th>Cost</th>
-                        <th>Last Change</th>
                         <th>Selector</th>
                     </tr>
                 </thead>
@@ -49,22 +50,23 @@
                         <td>{stock}</td>
                         <td>{code}</td>
                         <td>{cost}</td>
-                        <td>{action}</td>
-                        <td>{radio}</td>
+                        <td> <input type="radio" name="selected" value ={radio}></td>
                     </tr>
                 {/marketboard}
                 </tbody>
         </table>
     </div>
     <div class="col-sm-6"></div>
-    <div class="col-sm-6">
+    <div class="col-sm-2">
     Quantity:<input type="text" id="quantity" name="quantity" size ="10">
+    </div>
+    <div class="col-sm-2">
     <input class="btn btn-primary" onclick="buyStock()" value="Buy">
+    </div>
+    <div class="col-sm-2">
     <input class="btn btn-success" onclick="sellStock()" value="Sell">
     </div>
 </form>
-<div class="col-sm-6"></div>
-<div class ="price col-sm-6">Expected Cost:
     
     <script type="text/javascript">
         function buyStock() 
@@ -80,10 +82,10 @@
             alert("Quantity to be sold is greater than  quantity owned, please adjust Quantity");
         }
         
-        function getExpected()
-        {
-            //Provides an expected cost based on stock selected and quantity entered asynchronously
-        }
         
+        function updateStatus(){
+            $.ajax({
+               
+            })
+        }
     </script>
-</div>
