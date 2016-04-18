@@ -13,11 +13,13 @@
     <div class="col-sm-12">
         <h3>Note: you cannot change your user ID</h3>
         <form name="login" method="post" action="/Manageaccn/submit">
-        Name: <input type="text" name="name"></input><br/>
+            
+        Name:<input type="text" name="name"></input><br/>
         Current Password: <input type="password" name="oldPassword"></input><br/>
         New Password: <input type="password" name="newPassword"></input><br/>
         <input type="submit" value="Submit"/>
         </form>
     </div>
+    <br/>
     {adminView}
 </div>

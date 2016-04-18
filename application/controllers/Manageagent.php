@@ -71,7 +71,7 @@ class Manageagent extends Application {
         return 'Purchased';     
     }
     
-       function sell($stock, $quantity)
+    function sell($stock, $quantity = 10)
     {
         $url = 'http://bsx.jlparry.com/sell';
         $player = $this->session->userdata('userName');

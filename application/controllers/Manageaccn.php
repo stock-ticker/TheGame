@@ -13,6 +13,7 @@ class Manageaccn extends Application {
          
         $this->data['pagebody'] = 'manageAccnView';
         $this->data['name'] = $currentUserName;
+
         $this->data['ID'] = $this->session->userdata('userID');
        
 

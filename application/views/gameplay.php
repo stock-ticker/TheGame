@@ -2,29 +2,43 @@
     <div class="col-sm-12">
         <h2>{player}</h2>
     </br>
-    Equity: {equity}</br>
     Cash: {cash}</br>
     </div>
 </div>
 
 <div class="holdings col-sm-6">
-    Round:<div class ="round"></div>
     <table class="table table-striped">
         <thead>
               <tr>
-                  <th>Name</th>
+                  <th>Stock</th>
+                  <th>Code</th>
                   <th>Value</th>
-                  <th>Held</th>
-                  <th>Equity</th>
+                  <th>Quantity Owned</th>
+                  <th>Buy Stock</th>
+                  <th>Sell Stock</th>
              </tr>
         </thead>
         <tbody>
             {holdings}
                 <tr>
-                    <td>{Name}</td>
+                    <td>{Stock}</td>
+                    <td>{Code}</td>
                     <td>{Value}</td>
-                    <td>{Held}</td>
-                    <td>{Equity}</td>
+                    <td>{Quantity}</td>
+                    <td>
+                        <form name="buy" method="post" action="/gameplay/submit">
+                        <input type="hidden" name="stock"value="{Code}">
+                        <input type="hidden" name="action"value="buy">
+                        <input type="submit" value="BUY"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form name="sell" method="post" action="/gameplay/submit">
+                        <input type="hidden" name="stock"value="{Code}">
+                        <input type="hidden" name="action"value="sell">
+                        <input type="submit" value="SELL"/>
+                        </form>
+                    </td>
                 </tr>
             {/holdings}
         </tbody>

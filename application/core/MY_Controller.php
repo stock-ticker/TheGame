@@ -27,22 +27,24 @@ class Application extends CI_Controller {
             $choices = array();
 
             $userRole = $this->session->userdata('userRole'); 
-            $userName = $this->session->userdata('userName');
+            $userName = $this->session->userdata('username');
 
             $choices[] = array('name' => "Home", 'link' => '/homepage');
             $choices[] = array('name' => "Stock History", 'link' => '/Stockhistory');
             if($userRole != null) {
 
                 $choices[] = array('name' => "Stocks", 'link' => '/Gameplay');
+
+                $choices[] = array('name' => $userName, 'link' => '/manageaccn');
                 if($userRole == "admin") {
                     $choices[] = array('name' => "Manage Agent", 'link' => '/Manageagent');
                 }
-                $choices[] = array('name' => $userName, 'link' => '/manageaccn');
                 $choices[] = array('name' => "Logout", 'link' => '/loginpage/logout');
             }
+            else{
             $choices[] = array('name' => "Login", 'link' => '/loginpage');
             $choices[] = array('name' => "Sign up", 'link' => '/register');
-            
+            }
             return $choices;
     }
     
