@@ -31,14 +31,16 @@ class Application extends CI_Controller {
 
             $choices[] = array('name' => "Home", 'link' => '/homepage');
             $choices[] = array('name' => "Stock History", 'link' => '/Stockhistory');
+            $choices[] = array('name' => "Players", 'link' => '/Playerstatus');
             if($userRole != null) {
 
-                $choices[] = array('name' => "Stocks", 'link' => '/Gameplay');
+                $choices[] = array('name' => "Play Game", 'link' => '/Gameplay');
 
-                $choices[] = array('name' => $userName, 'link' => '/manageaccn');
+                
                 if($userRole == "admin") {
                     $choices[] = array('name' => "Manage Agent", 'link' => '/Manageagent');
                 }
+                $choices[] = array('name' => 'Logged in as: ' . $userName, 'link' => '/manageaccn');
                 $choices[] = array('name' => "Logout", 'link' => '/loginpage/logout');
             }
             else{
